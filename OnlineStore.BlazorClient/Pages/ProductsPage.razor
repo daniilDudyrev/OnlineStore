@@ -1,0 +1,26 @@
+﻿@page "/products"
+@using OnlineStore.HttpApiClient
+@using OnlineStore.Models
+@using OnlineStore.BlazorClient.Components
+
+<h3>Список товаров</h3>
+
+@inject IShopClient ShopClient;
+
+@foreach (var product in _products)
+{
+    <ProductItem Product="product"/>
+}
+
+@code {
+
+    private IReadOnlyList<Product>? _products = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _products = await ShopClient.GetProducts();
+    }
+
+}
+

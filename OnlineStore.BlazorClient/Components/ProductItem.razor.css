@@ -1,0 +1,14 @@
+﻿div {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    width: max-content;
+    height: max-content;
+    border-style: groove;
+    border-color: #4f5050;
+}
+
+ul {
+    margin: 10px;
+    list-style: none;
+}

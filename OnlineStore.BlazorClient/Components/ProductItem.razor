@@ -1,0 +1,17 @@
+﻿@using OnlineStore.Models
+
+@inject NavigationManager NavigationManager
+
+<div @onclick="@(() => NavigationManager.NavigateTo($"/productInfo/{Product.Id}"))">
+    <ul>
+        <li>@Product.Name</li>
+        <li>Цена: @Product.Price</li>
+    </ul>
+</div>
+
+@code {
+
+    [Parameter]
+    public Product Product { get; set; }
+
+}
