@@ -1,8 +1,6 @@
-using OnlineStore.WebApi;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineStore.Data;
 using OnlineStore.Data.Repositories;
-using OnlineStore.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
