@@ -1,4 +1,4 @@
-﻿using OnlineStore.Models;
+﻿using OnlineStore.Domain;
 
 namespace OnlineStore.Data.Repositories;
 

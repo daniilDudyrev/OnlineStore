@@ -1,17 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineStore.Models;
+using OnlineStore.Domain;
 
-namespace OnlineStore.Data.Repositories;
+namespace OnlineStore.Data;
 
 public class AppDbContext : DbContext
 {
-    // ORM
-    public DbSet<Product> Products => Set<Product>();//{ get; set; }
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Account> Accounts => Set<Account>();
 
     public AppDbContext(
-        DbContextOptions<AppDbContext> options) 
+        DbContextOptions<AppDbContext> options)
         : base(options)
     {
     }
-
 }

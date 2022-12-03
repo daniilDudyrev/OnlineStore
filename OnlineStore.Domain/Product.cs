@@ -1,4 +1,6 @@
-﻿namespace OnlineStore.Models;
+﻿using OnlineStore.Models;
+
+namespace OnlineStore.Domain;
 
 public record Product : IEntity
 {
