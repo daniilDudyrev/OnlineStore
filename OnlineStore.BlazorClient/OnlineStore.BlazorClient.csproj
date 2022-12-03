@@ -14,7 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj" />
-      <ProjectReference Include="..\OnlineStore.Models\OnlineStore.Models.csproj" />
+      <ProjectReference Include="..\OnlineStore.HttpModels\OnlineStore.HttpModels.csproj" />
     </ItemGroup>
 
 </Project>
