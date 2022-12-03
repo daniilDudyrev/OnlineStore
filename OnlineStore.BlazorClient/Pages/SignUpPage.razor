@@ -1,0 +1,29 @@
+﻿@page "/signUp"
+@using OnlineStore.HttpApiClient
+@using OnlineStore.Models.Requests
+
+<h3>Авторизация</h3>
+
+@inject IShopClient ShopClient;
+
+<form>
+    Email <input type="email" @bind-value="_request.Email"/>
+    Login: <input type="text" @bind-value="_request.Name"/>
+    Password: <input type="password" @bind-value="_request.Password"/>
+    <button @onclick="Register">Submit</button>
+</form>
+
+@code {
+    private RegisterRequest _request = new RegisterRequest();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Register()
+    {
+        await ShopClient.Register(_request);
+    }
+
+}
