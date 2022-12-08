@@ -6,16 +6,18 @@
 
 @inject IShopClient ShopClient;
 
-<form>
+<EditForm Model="_request" OnValidSubmit="Register">
+    <DataAnnotationsValidator/>
     Email <input type="email" @bind-value="_request.Email"/>
     Login: <input type="text" @bind-value="_request.Name"/>
     Password: <input type="password" @bind-value="_request.Password"/>
-    <button @onclick="Register">Submit</button>
-</form>
+    <ValidationSummary/>
+    <input type="submit" value="Sign Up"/>
+</EditForm>
 
 @code {
     private RegisterRequest _request = new RegisterRequest();
-
+    
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
