@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Data;
 using OnlineStore.Data.Repositories;
+using OnlineStore.Domain.RepositoryInterfaces;
+using OnlineStore.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped(s => new AccountService(s.GetRequiredService<IAccountRepository>()));
 
 const string dbPath = "myapp.db";
 builder.Services.AddDbContext<AppDbContext>(
