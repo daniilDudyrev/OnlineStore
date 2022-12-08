@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Data.Repositories;
+﻿namespace OnlineStore.Domain.RepositoryInterfaces;
 
 public interface IRepository<TEntity>
 {

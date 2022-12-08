@@ -1,6 +1,6 @@
-﻿using OnlineStore.Domain;
+﻿using OnlineStore.Domain.Entities;
 
-namespace OnlineStore.Data.Repositories;
+namespace OnlineStore.Domain.RepositoryInterfaces;
 
 public interface IProductRepository : IRepository<Product>
 {

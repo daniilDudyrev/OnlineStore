@@ -1,6 +1,4 @@
-﻿using OnlineStore.Models;
-
-namespace OnlineStore.Domain;
+﻿namespace OnlineStore.Domain.Entities;
 
 public record Account : IEntity
 {

@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Models;
+﻿namespace OnlineStore.Domain.Entities;
 
 public interface IEntity
 {

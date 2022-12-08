@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using OnlineStore.Domain;
+using OnlineStore.Domain.Entities;
 using OnlineStore.Models.Requests;
 
 namespace OnlineStore.HttpApiClient;
@@ -32,11 +32,7 @@ public class ShopClient : IShopClient
 
     public async Task AddProduct(Product product, CancellationToken cts = default)
     {
-        if (product is null)
-        {
-            throw new ArgumentNullException(nameof(product));
-        }
-
+        if (product is null) throw new ArgumentNullException(nameof(product)); 
         var uri = $"{_host}/products/add";
         var response = await _httpClient.PostAsJsonAsync(uri, product, cts);
         response.EnsureSuccessStatusCode();
@@ -57,11 +53,7 @@ public class ShopClient : IShopClient
     }
     public async Task Register(RegisterRequest request, CancellationToken cts = default)
     {
-        if (request is null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-
+        if (request is null) throw new ArgumentNullException(nameof(request));
         var uri = $"{_host}/account/register";
         var response = await _httpClient.PostAsJsonAsync(uri, request, cts);
         response.EnsureSuccessStatusCode();
