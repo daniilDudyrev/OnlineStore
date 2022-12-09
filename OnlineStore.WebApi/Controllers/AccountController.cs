@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Entities;
-using OnlineStore.Domain.RepositoryInterfaces;
 using OnlineStore.Domain.Services;
 using OnlineStore.Models.Requests;
 
@@ -26,7 +25,7 @@ public class AccountController : ControllerBase
             var account = await _accountService.Register(request.Name, request.Email, request.Password, cts);
             return account;
         }
-        catch (InvalidOperationException e)
+        catch (EmailExistsException)
         {
             return BadRequest("Такой email уже зарегистрирован");
         }
