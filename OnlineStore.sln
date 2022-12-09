@@ -1,16 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.WebApi", "OnlineStore.WebApi\OnlineStore.WebApi.csproj", "{54D0533F-40D8-4FCE-97D0-E26BB31C50A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.WebApi", "backend\OnlineStore.WebApi\OnlineStore.WebApi.csproj", "{54D0533F-40D8-4FCE-97D0-E26BB31C50A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.HttpApiClient", "OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj", "{51FB4ADB-D5ED-4B42-8384-D8BA9F0FE2AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.HttpApiClient", "frontend\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj", "{51FB4ADB-D5ED-4B42-8384-D8BA9F0FE2AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.HttpModels", "OnlineStore.HttpModels\OnlineStore.HttpModels.csproj", "{11F8C19D-E046-4C3A-9F54-7081BF053B11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.HttpModels", "shared\OnlineStore.HttpModels\OnlineStore.HttpModels.csproj", "{11F8C19D-E046-4C3A-9F54-7081BF053B11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Data", "OnlineStore.Data\OnlineStore.Data.csproj", "{0AC96581-1AC6-4061-9FEA-5034624EFA25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Data", "backend\OnlineStore.Data\OnlineStore.Data.csproj", "{0AC96581-1AC6-4061-9FEA-5034624EFA25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BlazorClient", "OnlineStore.BlazorClient\OnlineStore.BlazorClient.csproj", "{AAFDC4D4-0160-453A-AF55-3465E9B5D1BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BlazorClient", "frontend\OnlineStore.BlazorClient\OnlineStore.BlazorClient.csproj", "{AAFDC4D4-0160-453A-AF55-3465E9B5D1BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Domain", "OnlineStore.Domain\OnlineStore.Domain.csproj", "{4AEDD9A7-CAA2-4AA7-9BCD-37531F9233C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Domain", "backend\OnlineStore.Domain\OnlineStore.Domain.csproj", "{4AEDD9A7-CAA2-4AA7-9BCD-37531F9233C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{F2F6AF71-6D44-41EB-B32E-735A2631112F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{64644F72-C50B-4583-BCBA-757FA1787033}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{4936BA45-0178-44E5-BD0A-6514CBAE627D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +48,13 @@ Global
 		{4AEDD9A7-CAA2-4AA7-9BCD-37531F9233C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEDD9A7-CAA2-4AA7-9BCD-37531F9233C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEDD9A7-CAA2-4AA7-9BCD-37531F9233C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AAFDC4D4-0160-453A-AF55-3465E9B5D1BF} = {F2F6AF71-6D44-41EB-B32E-735A2631112F}
+		{51FB4ADB-D5ED-4B42-8384-D8BA9F0FE2AD} = {F2F6AF71-6D44-41EB-B32E-735A2631112F}
+		{0AC96581-1AC6-4061-9FEA-5034624EFA25} = {64644F72-C50B-4583-BCBA-757FA1787033}
+		{4AEDD9A7-CAA2-4AA7-9BCD-37531F9233C4} = {64644F72-C50B-4583-BCBA-757FA1787033}
+		{54D0533F-40D8-4FCE-97D0-E26BB31C50A5} = {64644F72-C50B-4583-BCBA-757FA1787033}
+		{11F8C19D-E046-4C3A-9F54-7081BF053B11} = {4936BA45-0178-44E5-BD0A-6514CBAE627D}
 	EndGlobalSection
 EndGlobal

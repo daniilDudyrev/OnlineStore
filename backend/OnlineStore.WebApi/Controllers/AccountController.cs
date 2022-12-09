@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Entities;
+using OnlineStore.Domain.Exceptions;
 using OnlineStore.Domain.Services;
 using OnlineStore.Models.Requests;
 

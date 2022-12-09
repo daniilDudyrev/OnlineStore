@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped(s => new AccountService(s.GetRequiredService<IAccountRepository>()));
+builder.Services.AddScoped<AccountService>();
 
 const string dbPath = "myapp.db";
 builder.Services.AddDbContext<AppDbContext>(

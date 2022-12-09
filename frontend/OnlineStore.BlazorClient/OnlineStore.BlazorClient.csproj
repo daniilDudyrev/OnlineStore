@@ -13,6 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\backend\OnlineStore.Domain\OnlineStore.Domain.csproj" />
+      <ProjectReference Include="..\..\shared\OnlineStore.HttpModels\OnlineStore.HttpModels.csproj" />
       <ProjectReference Include="..\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj" />
       <ProjectReference Include="..\OnlineStore.HttpModels\OnlineStore.HttpModels.csproj" />
     </ItemGroup>

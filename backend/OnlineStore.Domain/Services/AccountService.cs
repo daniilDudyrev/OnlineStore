@@ -1,4 +1,5 @@
 ﻿using OnlineStore.Domain.Entities;
+using OnlineStore.Domain.Exceptions;
 using OnlineStore.Domain.RepositoryInterfaces;
 
 namespace OnlineStore.Domain.Services;
@@ -11,6 +12,7 @@ public class AccountService
     {
         _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
     }
+
     public virtual async Task<Account> Register(string name, string email, string password, CancellationToken cts)
     {
         if (name == null) throw new ArgumentNullException(nameof(name));
@@ -19,19 +21,9 @@ public class AccountService
         var existedAccount = await _accountRepository.FindByEmail(email, cts);
         var emailRegistered = existedAccount is not null;
         if (emailRegistered)
-            throw new EmailExistsException("Email уже зарегистрирован", email);
+            throw new EmailExistsException("Email уже зарегистрирован");
         var account = new Account(Guid.NewGuid(), name, email, password);
         await _accountRepository.Add(account, cts);
         return account;
-    }
-}
-[Serializable]
-public class EmailExistsException : Exception
-{
-    private string _email;
-
-    public EmailExistsException(string message, string email): base(message)
-    {
-        _email = email;
     }
 }
