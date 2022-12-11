@@ -32,7 +32,11 @@ public class ShopClient : IShopClient
 
     public async Task AddProduct(Product product, CancellationToken cts = default)
     {
-        if (product is null) throw new ArgumentNullException(nameof(product)); 
+        if (product is null)
+        {
+            throw new ArgumentNullException(nameof(product));
+        }
+
         var uri = $"{_host}/products/add";
         var response = await _httpClient.PostAsJsonAsync(uri, product, cts);
         response.EnsureSuccessStatusCode();
@@ -51,10 +55,27 @@ public class ShopClient : IShopClient
         var response = await _httpClient.DeleteAsync(uri, cts);
         response.EnsureSuccessStatusCode();
     }
+
     public async Task Register(RegisterRequest request, CancellationToken cts = default)
     {
-        if (request is null) throw new ArgumentNullException(nameof(request));
+        if (request is null)
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
+
         var uri = $"{_host}/account/register";
+        var response = await _httpClient.PostAsJsonAsync(uri, request, cts);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task Authentication(AuthRequest request, CancellationToken cts = default)
+    {
+        if (request == null)
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
+
+        var uri = $"{_host}/account/authentication";
         var response = await _httpClient.PostAsJsonAsync(uri, request, cts);
         response.EnsureSuccessStatusCode();
     }
