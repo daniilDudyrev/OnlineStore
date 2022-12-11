@@ -11,4 +11,6 @@ public interface IShopClient
     Task UpdateProduct(Guid id, Product product, CancellationToken cts = default);
     Task DeleteProductById(Guid id, CancellationToken cts = default);
     Task Register(RegisterRequest registerRequest, CancellationToken cts = default);
+
+    Task Authentication(AuthRequest authRequest, CancellationToken cts = default);
 }
