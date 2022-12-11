@@ -10,7 +10,7 @@ public class RegisterRequest
     [Required]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; }
-    
+
     [Required]
     [MinLength(8)]
     [DataType(DataType.Password)]
