@@ -3,6 +3,7 @@ using OnlineStore.Data;
 using OnlineStore.Data.Repositories;
 using OnlineStore.Domain.RepositoryInterfaces;
 using OnlineStore.Domain.Services;
+using OnlineStore.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddSingleton<IPasswordHasherService, Pbkdf2PasswordHasher>();
 
 const string dbPath = "myapp.db";
 builder.Services.AddDbContext<AppDbContext>(
