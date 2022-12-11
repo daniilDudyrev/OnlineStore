@@ -11,7 +11,7 @@ using OnlineStore.Data;
 namespace OnlineStore.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221202184615_Initial")]
+    [Migration("20221209182344_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace OnlineStore.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
-            modelBuilder.Entity("OnlineStore.Domain.Account", b =>
+            modelBuilder.Entity("OnlineStore.Domain.Entities.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,7 +34,7 @@ namespace OnlineStore.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -43,7 +43,7 @@ namespace OnlineStore.Data.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("OnlineStore.Domain.Product", b =>
+            modelBuilder.Entity("OnlineStore.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
