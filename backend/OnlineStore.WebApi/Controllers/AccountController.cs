@@ -20,7 +20,11 @@ public class AccountController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<Account>> Register(RegisterRequest request, CancellationToken cts)
     {
-        if (request == null) throw new ArgumentNullException(nameof(request));
+        if (request == null)
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
+
         try
         {
             var account = await _accountService.Register(request.Name, request.Email, request.Password, cts);
@@ -29,6 +33,29 @@ public class AccountController : ControllerBase
         catch (EmailExistsException)
         {
             return BadRequest("Такой email уже зарегистрирован");
+        }
+    }
+
+    [HttpPost("authentication")]
+    public async Task<ActionResult<(Guid,string)>> Authentication(AuthRequest request, CancellationToken cts)
+    {
+        if (request == null)
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
+
+        try
+        {
+            var account = await _accountService.Authentication(request.Email, request.Password, cts);
+            return (account.Id, account.Name);
+        }
+        catch (EmailNotFoundException)
+        {
+            return Unauthorized("Такого аккаунта не существует");
+        }
+        catch (InvalidPasswordException)
+        {
+            return Unauthorized("Неверный пароль");
         }
     }
 }
