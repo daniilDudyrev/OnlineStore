@@ -43,8 +43,9 @@ var app = builder.Build();
 //         await context.Response.WriteAsJsonAsync(new { Message = "Only Edge is supported." });
 //     }
 // });
-app.UseMiddleware<RequestLoggingMiddleware>();
+
 app.UseHttpsRedirection();
+app.UseMiddleware<PageTransitionsMiddleware>();
 app.UseHttpLogging();
 app.UseCors(policy =>
 {
