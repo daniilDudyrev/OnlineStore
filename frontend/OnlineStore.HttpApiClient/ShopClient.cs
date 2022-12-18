@@ -1,6 +1,8 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using OnlineStore.Domain.Entities;
 using OnlineStore.Models.Requests;
+using OnlineStore.Models.Responses;
 
 namespace OnlineStore.HttpApiClient;
 
@@ -9,6 +11,7 @@ public class ShopClient : IShopClient
     private const string DefaultHost = "https://api.mysite.com";
     private readonly string _host;
     private readonly HttpClient _httpClient;
+    public bool IsAuthorizationTokenSet { get; private set; }
 
     public ShopClient(string host = DefaultHost, HttpClient? httpClient = null)
     {
@@ -19,15 +22,15 @@ public class ShopClient : IShopClient
     public async Task<IReadOnlyList<Product>> GetProducts(CancellationToken cts = default)
     {
         var uri = $"{_host}/products/get_all";
-        var response = await _httpClient.GetFromJsonAsync<IReadOnlyList<Product>>(uri, cts);
-        return response!;
+        var responseMessage = await _httpClient.GetFromJsonAsync<IReadOnlyList<Product>>(uri, cts);
+        return responseMessage!;
     }
 
     public async Task<Product> GetProduct(Guid id, CancellationToken cts = default)
     {
         var uri = $"{_host}/products/get_by_id?id={id}";
-        var response = await _httpClient.GetFromJsonAsync<Product>(uri, cts);
-        return response!;
+        var responseMessage = await _httpClient.GetFromJsonAsync<Product>(uri, cts);
+        return responseMessage!;
     }
 
     public async Task AddProduct(Product product, CancellationToken cts = default)
@@ -38,25 +41,25 @@ public class ShopClient : IShopClient
         }
 
         var uri = $"{_host}/products/add";
-        var response = await _httpClient.PostAsJsonAsync(uri, product, cts);
-        response.EnsureSuccessStatusCode();
+        var responseMessage = await _httpClient.PostAsJsonAsync(uri, product, cts);
+        responseMessage.EnsureSuccessStatusCode();
     }
 
     public async Task UpdateProduct(Guid id, Product product, CancellationToken cts = default)
     {
         var uri = $"{_host}/products/update/{id}";
-        var response = await _httpClient.PutAsJsonAsync(uri, product, cts);
-        response.EnsureSuccessStatusCode();
+        var responseMessage = await _httpClient.PutAsJsonAsync(uri, product, cts);
+        responseMessage.EnsureSuccessStatusCode();
     }
 
     public async Task DeleteProductById(Guid id, CancellationToken cts = default)
     {
         var uri = $"{_host}/products/delete_by_id/{id}";
-        var response = await _httpClient.DeleteAsync(uri, cts);
-        response.EnsureSuccessStatusCode();
+        var responseMessage = await _httpClient.DeleteAsync(uri, cts);
+        responseMessage.EnsureSuccessStatusCode();
     }
 
-    public async Task Register(RegisterRequest request, CancellationToken cts = default)
+    public async Task<RegisterResponse> Register(RegisterRequest request, CancellationToken cts = default)
     {
         if (request is null)
         {
@@ -64,11 +67,14 @@ public class ShopClient : IShopClient
         }
 
         var uri = $"{_host}/account/register";
-        var response = await _httpClient.PostAsJsonAsync(uri, request, cts);
-        response.EnsureSuccessStatusCode();
+        var responseMessage = await _httpClient.PostAsJsonAsync(uri, request, cts);
+        responseMessage.EnsureSuccessStatusCode();
+        var response = await responseMessage.Content.ReadFromJsonAsync<RegisterResponse>(cancellationToken: cts);
+        SetAuthToken(response!.Token);
+        return response;
     }
 
-    public async Task Authentication(AuthRequest request, CancellationToken cts = default)
+    public async Task<AuthResponse> Authentication(AuthRequest request, CancellationToken cts = default)
     {
         if (request == null)
         {
@@ -76,7 +82,49 @@ public class ShopClient : IShopClient
         }
 
         var uri = $"{_host}/account/authentication";
-        var response = await _httpClient.PostAsJsonAsync(uri, request, cts);
-        response.EnsureSuccessStatusCode();
+        var responseMessage = await _httpClient.PostAsJsonAsync(uri, request, cts);
+        responseMessage.EnsureSuccessStatusCode();
+        var response = await responseMessage.Content.ReadFromJsonAsync<AuthResponse>(cancellationToken: cts);
+        SetAuthToken(response!.Token);
+        return response;
+    }
+
+    public async Task<Account> GetAccount(CancellationToken cts = default)
+    {
+        var uri = $"{_host}/account/get_current";
+        var responseMessage = await _httpClient.GetFromJsonAsync<Account>(uri, cts);
+        return responseMessage!;
+    }
+
+    public async Task<Cart> GetCart()
+    {
+        var uri = $"{_host}/cart/get";
+        var responseMessage = await _httpClient.GetFromJsonAsync<Cart>(uri);
+        return responseMessage!;
+    }
+
+    public async Task AddToCart(Product product, CancellationToken cts = default)
+    {
+        var uri = $"{_host}/cart/add_item";
+        var responseMessage = await _httpClient.PostAsJsonAsync(uri, product, cts);
+        responseMessage.EnsureSuccessStatusCode();
+    }
+
+    public void SetAuthToken(string token)
+    {
+        if (token == null)
+        {
+            throw new ArgumentNullException(nameof(token));
+        }
+
+        var header = new AuthenticationHeaderValue("Bearer", token);
+        _httpClient.DefaultRequestHeaders.Authorization = header;
+        IsAuthorizationTokenSet = true;
+    }
+
+    public void ResetAuthToken()
+    {
+        _httpClient.DefaultRequestHeaders.Remove("Authorization");
+        IsAuthorizationTokenSet = false;
     }
 }
