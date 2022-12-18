@@ -1,0 +1,24 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using OnlineStore.Domain.Entities;
+
+namespace OnlineStore.Data.Config;
+
+public class CartEntityTypeConfiguration : IEntityTypeConfiguration<Cart>
+{
+    public void Configure(EntityTypeBuilder<Cart> conf)
+    {
+        conf.ToTable("carts");
+        conf.HasKey(o => o.Id);
+
+        //orderConfiguration.Ignore(b => b.DomainEvents);
+
+        conf.Property<string>("Description").IsRequired(false);
+
+        var navigation = conf.Metadata.FindNavigation(nameof(Cart.Items));
+        // DDD Patterns comment:
+        //Set as field (New since EF 1.1) to access the OrderItem collection property through its field
+        navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+        conf.Navigation(it => it.Items).AutoInclude();
+    }
+}
