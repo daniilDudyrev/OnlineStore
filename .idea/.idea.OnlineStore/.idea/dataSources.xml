@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="myapp [2]" uuid="9840afa3-e097-4fa9-befd-33c33d2d158d">
+    <data-source source="LOCAL" name="myapp" uuid="828b5ebd-d798-43a4-8c98-e6ce475715f3">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:D:\File\RiderProjects\OnlineStore\OnlineStore.WebApi\myapp.db</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-      <libraries>
-        <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.39.2/sqlite-jdbc-3.39.2.jar</url>
-        </library>
-      </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="myapp" uuid="db0b174b-6c86-4759-b411-66d1f77afb3c">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\curve\RiderProjects\AspNet_OnlineStore-main\OnlineStore.WebApi\myapp.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\curve\RiderProjects\OnlineStore\backend\OnlineStore.WebApi\myapp.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
