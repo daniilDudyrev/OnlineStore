@@ -6,16 +6,23 @@ namespace OnlineStore.Domain.Services;
 
 public class AccountService
 {
-    private readonly IAccountRepository _accountRepository;
+    // private readonly IAccountRepository _accountRepository;
     private readonly IPasswordHasherService _passwordHasherService;
+    private readonly ITokenService _tokenService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AccountService(IAccountRepository accountRepository, IPasswordHasherService passwordHasherService)
+    public AccountService(IPasswordHasherService passwordHasherService,
+        ITokenService tokenService, IUnitOfWork unitOfWork)
     {
-        _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
-        _passwordHasherService = passwordHasherService;
+        // _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
+        _passwordHasherService =
+            passwordHasherService ?? throw new ArgumentNullException(nameof(passwordHasherService));
+        _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public virtual async Task<Account> Register(string name, string email, string password, CancellationToken cts)
+    public virtual async Task<(Account account, string token)> Register(string name, string email, string password,
+        CancellationToken cts)
     {
         if (name == null)
         {
@@ -32,7 +39,7 @@ public class AccountService
             throw new ArgumentNullException(nameof(password));
         }
 
-        var existedAccount = await _accountRepository.FindByEmail(email, cts);
+        var existedAccount = await _unitOfWork.AccountRepository.FindByEmail(email, cts);
         var emailRegistered = existedAccount is not null;
         if (emailRegistered)
         {
@@ -41,11 +48,16 @@ public class AccountService
 
         var hashedPassword = _passwordHasherService.HashPassword(password);
         var account = new Account(Guid.NewGuid(), name, email, hashedPassword);
-        await _accountRepository.Add(account, cts);
-        return account;
+        var cart = new Cart(Guid.NewGuid(), account.Id, new List<CartItem>());
+        await _unitOfWork.AccountRepository.Add(account, cts);
+        await _unitOfWork.CartRepository.Add(cart, cts);
+        await _unitOfWork.SaveChangesAsync(cts);
+        var token = _tokenService.GenerateToken(account);
+        return (account, token);
     }
 
-    public virtual async Task<Account> Authentication(string email, string password, CancellationToken cts)
+    public virtual async Task<(Account account, string token)> Authentication(string email, string password,
+        CancellationToken cts)
     {
         if (email == null)
         {
@@ -57,7 +69,7 @@ public class AccountService
             throw new ArgumentNullException(nameof(password));
         }
 
-        var account = await _accountRepository.FindByEmail(email, cts);
+        var account = await _unitOfWork.AccountRepository.FindByEmail(email, cts);
         if (account == null)
         {
             throw new EmailNotFoundException("Такого аккаунта не существует");
@@ -68,6 +80,10 @@ public class AccountService
             throw new InvalidPasswordException("Неверный пароль");
         }
 
-        return account;
+        var token = _tokenService.GenerateToken(account);
+
+        return (account, token);
     }
+
+    public async Task<Account> GetAccount(Guid accountId) => await _unitOfWork.AccountRepository.GetById(accountId);
 }

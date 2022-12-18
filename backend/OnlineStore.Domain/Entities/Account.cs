@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace OnlineStore.Domain.Entities;
+﻿namespace OnlineStore.Domain.Entities;
 
 public record Account : IEntity
 {
@@ -10,7 +8,7 @@ public record Account : IEntity
     public string PasswordHash { get; set; }
 
 #pragma warning disable CS8618
-    private Account()
+    public Account()
 #pragma warning restore CS8618
     {
     }
