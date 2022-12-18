@@ -2,19 +2,29 @@
 @using OnlineStore.HttpApiClient
 @using OnlineStore.BlazorClient.Components
 @using OnlineStore.Domain.Entities
+@using Blazored.Toast.Services
+@using Blazored.Toast
+@using OnlineStore.Models.Requests
+@using OnlineStore.Models.Responses
+@inherits OnlineStore.BlazorClient.Components.AppComponentBase
 
 <h3>Список товаров</h3>
 
-@inject IShopClient ShopClient;
+@* @inject IShopClient ShopClient; *@
+@inject IToastService ToastService;
 
-@foreach (var product in _products)
+@if (_products is not null)
 {
-    <ProductItem Product="product"/>
+    foreach (var product in _products)
+    {
+        <ProductItem Product="product"/>
+        @* <button class="btn btn-success" @onclick="@(AddToCart)">Добавить в корзину</button> *@
+    }
 }
 
 @code {
 
-    private IReadOnlyList<Product>? _products = null;
+    private IReadOnlyList<Product>? _products;
 
     protected override async Task OnInitializedAsync()
     {
@@ -22,5 +32,28 @@
         _products = await ShopClient.GetProducts();
     }
 
-}
+    // private async Task AddToCart(Product product)
+    // {
+    //     var cartItem = new CartItem();
+    //     cartItem.ProductId = product.Id;
+    //     cartItem.Price = product.Price;
+    //     cartItem.Id = Guid.NewGuid();
+    //     cartItem.Quantity = 1;
+    //     await ShopClient.AddToCart(cartItem);
+    //     ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
+    // }
 
+    private async Task AddToCart()
+    {
+        // var cartItem = new CartItem
+        // {
+        //     ProductId = Guid.NewGuid(),
+        //     Price = 240m,
+        //     Id = Guid.NewGuid(),
+        //     Quantity = 1
+        // };
+        // await ShopClient.AddToCart(cartItem);
+        // ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
+    }
+
+}

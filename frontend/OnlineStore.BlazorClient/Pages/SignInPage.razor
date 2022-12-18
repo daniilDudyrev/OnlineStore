@@ -1,30 +1,26 @@
 ﻿@page "/signIn"
-@using OnlineStore.HttpApiClient
 @using OnlineStore.Models.Requests
 
+@inherits OnlineStore.BlazorClient.Components.AppComponentBase
+@inject NavigationManager NavigationManager;
 <h3>Вход</h3>
-
-@inject IShopClient ShopClient
 
 <EditForm Model="_request" OnValidSubmit="Authentication">
     <DataAnnotationsValidator/>
     Email <input type="email" @bind-value="_request.Email"/>
-    Password: <input type="password" @bind-value="_request.Password"/>
+    Пароль: <input type="password" @bind-value="_request.Password"/>
     <ValidationSummary/>
-    <input type="submit" value="Sign In"/>
+    <input type="submit" value="Войти"/>
 </EditForm>
 
 @code {
-    private AuthRequest _request = new AuthRequest();
-    
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-    }
+    private readonly AuthRequest _request = new ();
 
     private async Task Authentication()
     {
-        await ShopClient.Authentication(_request);
+        var response = await ShopClient.Authentication(_request);
+        await LocalStorage.SetItemAsStringAsync("token", response.Token);
+        NavigationManager.NavigateTo("account");
     }
 
 }

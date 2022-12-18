@@ -1,10 +1,8 @@
 ﻿@page "/signUp"
-@using OnlineStore.HttpApiClient
 @using OnlineStore.Models.Requests
+@inherits OnlineStore.BlazorClient.Components.AppComponentBase
 
 <h3>Авторизация</h3>
-
-@inject IShopClient ShopClient;
 
 <EditForm Model="_request" OnValidSubmit="Register">
     <DataAnnotationsValidator/>
@@ -16,16 +14,11 @@
 </EditForm>
 
 @code {
-    private RegisterRequest _request = new RegisterRequest();
-    
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-    }
+    private readonly RegisterRequest _request = new RegisterRequest();
 
     private async Task Register()
     {
-        await ShopClient.Register(_request);
+        var response = await ShopClient.Register(_request);
+        await LocalStorage.SetItemAsStringAsync("token", response.Token);
     }
-
 }
