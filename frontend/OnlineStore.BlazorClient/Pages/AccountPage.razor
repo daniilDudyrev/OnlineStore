@@ -1,0 +1,22 @@
+﻿@page "/account"
+@using OnlineStore.Domain.Entities
+@inherits OnlineStore.BlazorClient.Components.AppComponentBase
+
+<h3>Информация об аккаунте</h3>
+
+@if (_account is not null)
+{
+    <p>Имя:@_account.Name</p>
+    <p>Email:@_account.Email</p>
+}
+
+@code {
+    private Account? _account;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _account = await ShopClient.GetAccount();
+    }
+
+}

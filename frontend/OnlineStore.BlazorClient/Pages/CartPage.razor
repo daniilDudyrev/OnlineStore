@@ -1,0 +1,18 @@
+﻿@page "/cart"
+@using OnlineStore.Domain.Entities
+@inherits OnlineStore.BlazorClient.Components.AppComponentBase
+
+<h3>Корзина</h3>
+
+Товаров в корзине: @_cart?.ItemsCount
+
+@code {
+    private Cart? _cart;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _cart = await ShopClient.GetCart();
+    }
+}
+
