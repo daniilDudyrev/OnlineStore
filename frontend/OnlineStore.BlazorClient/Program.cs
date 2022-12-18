@@ -1,3 +1,5 @@
+using Blazored.LocalStorage;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using OnlineStore.BlazorClient;
@@ -9,5 +11,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton<IShopClient>(new ShopClient("http://localhost:7079"));
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddBlazoredToast();
 
 await builder.Build().RunAsync();

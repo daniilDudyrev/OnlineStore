@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
         <PackageReference Include="Blazored.Toast" Version="3.2.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
@@ -16,7 +17,6 @@
       <ProjectReference Include="..\..\backend\OnlineStore.Domain\OnlineStore.Domain.csproj" />
       <ProjectReference Include="..\..\shared\OnlineStore.HttpModels\OnlineStore.HttpModels.csproj" />
       <ProjectReference Include="..\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj" />
-      <ProjectReference Include="..\OnlineStore.HttpModels\OnlineStore.HttpModels.csproj" />
     </ItemGroup>
 
 </Project>
