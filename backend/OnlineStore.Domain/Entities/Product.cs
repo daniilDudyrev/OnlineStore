@@ -1,4 +1,5 @@
-﻿namespace OnlineStore.Domain.Entities;
+﻿#pragma warning disable CS8618
+namespace OnlineStore.Domain.Entities;
 
 public record Product : IEntity
 {
