@@ -64,6 +64,11 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpGet("get_current")]
-    public async Task<ActionResult<Account>> GetCurrentAccount() =>
-        await _accountService.GetAccount(User.GetAccountId());
+    public async Task<ActionResult<Account>> GetCurrentAccount(CancellationToken cts) =>
+        await _accountService.GetAccount(User.GetAccountId(), cts);
+
+    [Authorize(Roles = $"{Roles.Admin}")]
+    [HttpGet("get_all")]
+    public async Task<IReadOnlyCollection<Account>> GetAllAccounts(CancellationToken cts) =>
+        await _accountService.GetAll(cts);
 }

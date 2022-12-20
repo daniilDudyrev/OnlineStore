@@ -1,6 +1,6 @@
 ﻿namespace OnlineStore.Domain.Entities;
 
-public class Cart : IEntity
+public record Cart : IEntity
 {
     protected Cart()
     {

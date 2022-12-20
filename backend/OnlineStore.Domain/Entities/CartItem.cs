@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace OnlineStore.Domain.Entities;
 
-namespace OnlineStore.Domain.Entities;
-
-public class CartItem : IEntity
+public record CartItem : IEntity
 {
     protected CartItem()
     {

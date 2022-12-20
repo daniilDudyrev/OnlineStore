@@ -45,7 +45,7 @@ public class AccountService
         }
 
         var hashedPassword = _passwordHasherService.HashPassword(password);
-        var account = new Account(Guid.NewGuid(), name, email, hashedPassword);
+        var account = new Account(Guid.NewGuid(), name, email, hashedPassword, Roles.Defaults.Users);
         var cart = new Cart(Guid.NewGuid(), account.Id, new List<CartItem>());
         await _unitOfWork.AccountRepository.Add(account, cts);
         await _unitOfWork.CartRepository.Add(cart, cts);
@@ -79,9 +79,12 @@ public class AccountService
         }
 
         var token = _tokenService.GenerateToken(account);
-
         return (account, token);
     }
 
-    public async Task<Account> GetAccount(Guid accountId) => await _unitOfWork.AccountRepository.GetById(accountId);
+    public async Task<Account> GetAccount(Guid accountId, CancellationToken cts) =>
+        await _unitOfWork.AccountRepository.GetById(accountId, cts);
+
+    public async Task<IReadOnlyCollection<Account>> GetAll(CancellationToken cts) =>
+        await _unitOfWork.AccountRepository.GetAll(cts);
 }

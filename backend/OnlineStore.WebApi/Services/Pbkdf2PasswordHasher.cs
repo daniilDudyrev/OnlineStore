@@ -8,7 +8,7 @@ namespace OnlineStore.WebApi.Services;
 public class Pbkdf2PasswordHasher : IPasswordHasherService
 {
     private readonly PasswordHasher<Account> _hasher;
-    private readonly Account _account = new(Guid.Empty, "", "fake@fake.com", "");
+    private readonly Account _account = new(Guid.Empty, "", "fake@fake.com", "",Roles.Defaults.Users);
 
     public Pbkdf2PasswordHasher(IOptions<PasswordHasherOptions> optionsAccessor)
     {
