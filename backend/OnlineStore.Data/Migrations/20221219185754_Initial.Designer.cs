@@ -11,7 +11,7 @@ using OnlineStore.Data;
 namespace OnlineStore.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221218164142_Initial")]
+    [Migration("20221219185754_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -67,9 +67,6 @@ namespace OnlineStore.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("CartId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ProductId")
