@@ -19,17 +19,17 @@ public class ShopClient : IShopClient
         _httpClient = httpClient ?? new HttpClient();
     }
 
-    public async Task<IReadOnlyList<Product>> GetProducts(CancellationToken cts = default)
+    public async Task<ProductsResponse> GetProducts(CancellationToken cts = default)
     {
         var uri = $"{_host}/products/get_all";
-        var responseMessage = await _httpClient.GetFromJsonAsync<IReadOnlyList<Product>>(uri, cts);
+        var responseMessage = await _httpClient.GetFromJsonAsync<ProductsResponse>(uri, cts);
         return responseMessage!;
     }
 
-    public async Task<Product> GetProduct(Guid id, CancellationToken cts = default)
+    public async Task<ProductResponse> GetProduct(Guid id, CancellationToken cts = default)
     {
         var uri = $"{_host}/products/get_by_id?id={id}";
-        var responseMessage = await _httpClient.GetFromJsonAsync<Product>(uri, cts);
+        var responseMessage = await _httpClient.GetFromJsonAsync<ProductResponse>(uri, cts);
         return responseMessage!;
     }
 
@@ -96,18 +96,20 @@ public class ShopClient : IShopClient
         return responseMessage!;
     }
 
-    public async Task<Cart> GetCart()
+    public async Task<CartResponse> GetItemsInCart(CancellationToken cts = default)
     {
         var uri = $"{_host}/cart/get";
-        var responseMessage = await _httpClient.GetFromJsonAsync<Cart>(uri);
+        var responseMessage = await _httpClient.GetFromJsonAsync<CartResponse>(uri, cts);
         return responseMessage!;
     }
 
-    public async Task AddToCart(Product product, CancellationToken cts = default)
+    public async Task<CartItemResponse> AddToCart(Guid productId, CancellationToken cts = default)
     {
-        var uri = $"{_host}/cart/add_item";
-        var responseMessage = await _httpClient.PostAsJsonAsync(uri, product, cts);
+        var uri = $"{_host}/cart/add_item?productId={productId}";
+        var responseMessage = await _httpClient.PostAsJsonAsync(uri, productId, cts);
         responseMessage.EnsureSuccessStatusCode();
+        var response = await responseMessage.Content.ReadFromJsonAsync<CartItemResponse>(cancellationToken: cts);
+        return response!;
     }
 
     public void SetAuthToken(string token)

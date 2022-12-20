@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Entities;
 using OnlineStore.Domain.Exceptions;
@@ -36,7 +35,7 @@ public class AccountController : ControllerBase
         }
         catch (EmailExistsException)
         {
-            return BadRequest("Такой email уже зарегистрирован");
+            return BadRequest("Email already exists");
         }
     }
 
@@ -55,27 +54,16 @@ public class AccountController : ControllerBase
         }
         catch (EmailNotFoundException)
         {
-            return Unauthorized("Такого аккаунта не существует");
+            return Unauthorized("There is no such account");
         }
         catch (InvalidPasswordException)
         {
-            return Unauthorized("Неверный пароль");
+            return Unauthorized("Invalid password");
         }
     }
 
     [Authorize]
     [HttpGet("get_current")]
-    public async Task<ActionResult<Account>> GetCurrentAccount()
-    {
-        // var strId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        // if (strId == null)
-        // {
-        //     return Unauthorized();
-        // }
-        //
-        // var userId = Guid.Parse(strId);
-        // var account = await _accountService.GetAccount(userId);
-        // return account;
-        return await _accountService.GetAccount(User.GetAccountId());
-    }
+    public async Task<ActionResult<Account>> GetCurrentAccount() =>
+        await _accountService.GetAccount(User.GetAccountId());
 }

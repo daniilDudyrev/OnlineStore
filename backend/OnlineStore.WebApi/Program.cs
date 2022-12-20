@@ -19,18 +19,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() {
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+        Description =
+            "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
     });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
-            new OpenApiSecurityScheme {
-                Reference = new OpenApiReference {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 }
@@ -39,9 +44,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-builder.Services.AddControllers()
-    .AddJsonOptions(o => o.JsonSerializerOptions
-        .ReferenceHandler = ReferenceHandler.Preserve);
+
 builder.Services.AddScoped<HttpModelsMapper>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -56,8 +59,6 @@ builder.Services.AddHttpLogging(options =>
 {
     options.LoggingFields = HttpLoggingFields.RequestHeaders
                             | HttpLoggingFields.ResponseHeaders;
-    // | HttpLoggingFields.RequestBody
-    // | HttpLoggingFields.ResponseBody;
 });
 var jwtConfig = builder.Configuration
     .GetSection("JwtConfig")
@@ -94,19 +95,6 @@ builder.Services.AddDbContext<AppDbContext>(
 
 builder.Services.AddCors();
 var app = builder.Build();
-
-// app.Use(async (context, next) =>
-// {
-//     var userAgent = context.Request.Headers.UserAgent.ToString();
-//     if (userAgent.Contains("Edg"))
-//     {
-//         await next();
-//     }
-//     else
-//     {
-//         await context.Response.WriteAsJsonAsync(new { Message = "Only Edge is supported." });
-//     }
-// });
 
 app.UseHttpsRedirection();
 

@@ -5,13 +5,11 @@ namespace OnlineStore.WebApi.Middlewares;
 public class PageTransitionsMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<PageTransitionsMiddleware> _logger;
     private readonly ConcurrentDictionary<string, int> _transitions = new();
 
-    public PageTransitionsMiddleware(RequestDelegate next, ILogger<PageTransitionsMiddleware> logger)
+    public PageTransitionsMiddleware(RequestDelegate next)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -34,7 +32,5 @@ public class PageTransitionsMiddleware
             );
             await _next(context);
         }
-
-       
     }
 }

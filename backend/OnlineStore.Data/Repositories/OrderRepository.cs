@@ -3,7 +3,7 @@ using OnlineStore.Domain.RepositoryInterfaces;
 
 namespace OnlineStore.Data.Repositories;
 
-public class OrderRepository: EfRepository<Order>, IOrderRepository
+public class OrderRepository : EfRepository<Order>, IOrderRepository
 {
     public OrderRepository(AppDbContext dbContext) : base(dbContext)
     {

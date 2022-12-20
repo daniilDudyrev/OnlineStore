@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnlineStore.Domain.Entities;
 using OnlineStore.Domain.Services;
+using OnlineStore.Models.Responses;
 using OnlineStore.WebApi.Extensions;
+using OnlineStore.WebApi.Mappers;
 
 namespace OnlineStore.WebApi.Controllers;
 
@@ -11,39 +12,28 @@ namespace OnlineStore.WebApi.Controllers;
 public class CartController : ControllerBase
 {
     private readonly CartService _cartService;
+    private readonly HttpModelsMapper _mapper;
 
-    public CartController(CartService cartService)
+    public CartController(CartService cartService, HttpModelsMapper mapper)
     {
         _cartService = cartService ?? throw new ArgumentNullException(nameof(cartService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     [Authorize]
     [HttpGet("get")]
-    public async Task<ActionResult<Cart>> GetCart()
+    public async Task<ActionResult<CartResponse>> GetCart()
     {
-        return await _cartService.GetCartForAccount(User.GetAccountId());
+        var cart = await _cartService.GetCartForAccount(User.GetAccountId());
+        return new CartResponse(cart.Items.Select(_mapper.MapCartItemModel), cart.Id, cart.AccountId, cart.ItemCount);
     }
 
     [Authorize]
     [HttpPost("add_item")]
-    public async Task<ActionResult<Cart>> AddItem(Product product)
-    {
-        if (product == null)
-        {
-            throw new ArgumentNullException(nameof(product));
-        }
-
-        var accountId = User.GetAccountId();
-        return await _cartService.AddItem(accountId, product.Id, product.Price);
-    }
-
-    [Authorize]
-    [HttpPost("get_items")]
-    public async Task<ActionResult<IEnumerable<CartItem>>> GetItemsInCart()
+    public async Task<ActionResult<CartItemResponse>> AddItem(Guid productId, int quantity = 1)
     {
         var accountId = User.GetAccountId();
-        var items =  await _cartService.GetItemsInCart(accountId);
-        return items.ToList();
+        await _cartService.AddItem(accountId, productId, 1);
+        return new CartItemResponse(productId, quantity);
     }
-
 }

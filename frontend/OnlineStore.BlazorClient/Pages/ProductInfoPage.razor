@@ -1,14 +1,15 @@
 ﻿@page "/productInfo/{ProductId:guid}"
 @using OnlineStore.Domain.Entities
 @using OnlineStore.HttpApiClient
+@using OnlineStore.Models.Responses
 
 @inject IShopClient ShopClient
 
 <h3>Информация о товаре</h3>
 @if (_product != null)
 {
-    <p>ID: @_product.Id</p>
-    <p>Название: @_product.Name</p>
+    <p>ID: @_product.ProductId</p>
+    <p>Название: @_product.ProductName</p>
     <p>Цена: @_product.Price</p>
 }
 
@@ -18,7 +19,7 @@
     [Parameter]
     public Guid ProductId { get; set; }
 
-    private Product _product;
+    private ProductResponse _product;
 
     protected override async Task OnInitializedAsync()
     {

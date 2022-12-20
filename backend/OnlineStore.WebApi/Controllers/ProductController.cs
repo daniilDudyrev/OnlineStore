@@ -16,22 +16,21 @@ public class ProductController : ControllerBase
     public ProductController(ProductService productService, HttpModelsMapper mapper)
     {
         _productService = productService ?? throw new ArgumentNullException(nameof(productService));
-        _mapper = mapper;
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     [HttpGet("get_all")]
     public async Task<ActionResult<ProductsResponse>> GetProducts(CancellationToken cts)
     {
         var products = await _productService.GetProducts(cts);
-        return new ProductsResponse(products.Select(_mapper.MapProductModelV1));
-        // return products.ToList();
+        return new ProductsResponse(products.Select(_mapper.MapProductModel));
     }
 
     [HttpGet("get_by_id")]
-    public async Task<ActionResult<Product>> GetProduct(Guid id, CancellationToken cts)
+    public async Task<ActionResult<ProductResponse>> GetProduct(Guid id, CancellationToken cts)
     {
         var product = await _productService.GetProduct(id, cts);
-        return product;
+        return new ProductResponse(product.Id, product.Name, product.Price);
     }
 
     [HttpPost("add")]
@@ -41,6 +40,7 @@ public class ProductController : ControllerBase
         {
             throw new ArgumentNullException(nameof(request));
         }
+
         var product = await _productService.AddProduct(request.Name, request.Price, cts);
         return new ProductResponse(product.Id, product.Name, product.Price);
     }
@@ -52,6 +52,7 @@ public class ProductController : ControllerBase
         {
             throw new ArgumentNullException(nameof(request));
         }
+
         var product = await _productService.UpdateProduct(request.Name, cts);
         return new ProductResponse(product.Id, product.Name, product.Price);
     }

@@ -6,8 +6,8 @@ namespace OnlineStore.HttpApiClient;
 
 public interface IShopClient
 {
-    Task<IReadOnlyList<Product>> GetProducts(CancellationToken cts = default);
-    Task<Product> GetProduct(Guid id, CancellationToken cts = default);
+    Task<ProductsResponse> GetProducts(CancellationToken cts = default);
+    Task<ProductResponse> GetProduct(Guid id, CancellationToken cts = default);
     Task AddProduct(Product product, CancellationToken cts = default);
     Task UpdateProduct(Guid id, Product product, CancellationToken cts = default);
     Task DeleteProductById(Guid id, CancellationToken cts = default);
@@ -16,6 +16,6 @@ public interface IShopClient
     void SetAuthToken(string token);
     void ResetAuthToken();
     Task<Account> GetAccount(CancellationToken cts = default);
-    Task<Cart> GetCart();
-    Task AddToCart(Product product, CancellationToken cts = default);
+    Task<CartResponse> GetItemsInCart(CancellationToken cts = default);
+    Task<CartItemResponse> AddToCart(Guid productId, CancellationToken cts = default);
 }

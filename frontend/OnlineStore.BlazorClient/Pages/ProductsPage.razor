@@ -13,18 +13,21 @@
 @* @inject IShopClient ShopClient; *@
 @inject IToastService ToastService;
 
-@if (_products is not null)
-{
-    foreach (var product in _products)
+<div class="productsList">
+    @if (_products is not null)
     {
-        <ProductItem Product="product"/>
-        @* <button class="btn btn-success" @onclick="@(AddToCart)">Добавить в корзину</button> *@
+        foreach (var product in _products.Products)
+        {
+            <ProductItem Product="product"/>
+            <p>@product.ProductId</p>
+            <button class="btn btn-success" id="btnAddToCart"  @onclick="@(() =>AddToCart(product.ProductId))">Добавить в корзину</button>
+        }
     }
-}
+</div>
 
 @code {
 
-    private IReadOnlyList<Product>? _products;
+    private ProductsResponse? _products;
 
     protected override async Task OnInitializedAsync()
     {
@@ -32,6 +35,12 @@
         _products = await ShopClient.GetProducts();
     }
 
+    private async Task AddToCart(Guid productId)
+    {
+        await ShopClient.AddToCart(productId);
+        ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
+    }
+    
     // private async Task AddToCart(Product product)
     // {
     //     var cartItem = new CartItem();
@@ -43,17 +52,16 @@
     //     ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
     // }
 
-    private async Task AddToCart()
-    {
-        // var cartItem = new CartItem
-        // {
-        //     ProductId = Guid.NewGuid(),
-        //     Price = 240m,
-        //     Id = Guid.NewGuid(),
-        //     Quantity = 1
-        // };
-        // await ShopClient.AddToCart(cartItem);
-        // ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
-    }
-
+    // private async Task AddToCart()
+    // {
+    // var cartItem = new CartItem
+    // {
+    //     ProductId = Guid.NewGuid(),
+    //     Price = 240m,
+    //     Id = Guid.NewGuid(),
+    //     Quantity = 1
+    // };
+    // await ShopClient.AddToCart(cartItem);
+    // ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
+    // }
 }

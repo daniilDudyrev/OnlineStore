@@ -14,7 +14,7 @@ public record Product : IEntity
 
     public Product(Guid id, string name, decimal price)
     {
-        Name = name;
+        Name = name ?? throw new ArgumentNullException(nameof(name));
         Price = price;
         Id = id;
     }

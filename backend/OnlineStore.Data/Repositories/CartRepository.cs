@@ -8,7 +8,10 @@ public class CartRepository : EfRepository<Cart>, ICartRepository
 {
     public CartRepository(AppDbContext dbContext) : base(dbContext)
     {
-        if (dbContext == null) throw new ArgumentNullException(nameof(dbContext));
+        if (dbContext == null)
+        {
+            throw new ArgumentNullException(nameof(dbContext));
+        }
     }
 
     public async Task<Cart> GetByAccountId(Guid accountId, CancellationToken cts = default)
@@ -22,8 +25,8 @@ public class CartRepository : EfRepository<Cart>, ICartRepository
     public async Task<Cart?> FindByAccountId(Guid accountId, CancellationToken cts = default)
     {
         var cart = await Entities.FirstOrDefaultAsync(
-                   it => it.AccountId == accountId, cts)
-               ?? Entities.Local.FirstOrDefault(it => it.AccountId == accountId);
+                       it => it.AccountId == accountId, cts)
+                   ?? Entities.Local.FirstOrDefault(it => it.AccountId == accountId);
         return cart;
     }
 }

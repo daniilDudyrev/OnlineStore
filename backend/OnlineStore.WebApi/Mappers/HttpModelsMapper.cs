@@ -5,6 +5,9 @@ namespace OnlineStore.WebApi.Mappers;
 
 public class HttpModelsMapper
 {
-    public virtual ProductResponse MapProductModelV1(Product obj) 
+    public virtual ProductResponse MapProductModel(Product obj)
         => new(obj.Id, obj.Name, obj.Price);
+
+    public virtual CartItemResponse MapCartItemModel(CartItem obj)
+        => new(obj.ProductId, obj.Quantity);
 }

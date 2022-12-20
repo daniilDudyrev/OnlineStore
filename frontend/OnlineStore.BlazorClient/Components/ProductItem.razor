@@ -1,11 +1,15 @@
 ﻿@using OnlineStore.Domain
 @using OnlineStore.Domain.Entities
+@using OnlineStore.Models.Responses
+@using Blazored.Toast.Services
+@inherits AppComponentBase
 
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 
-<div @onclick="@(() => NavigationManager.NavigateTo($"/productInfo/{Product.Id}"))">
+<div class="productItem" @onclick="@(() => NavigationManager.NavigateTo($"/productInfo/{Product.ProductId}"))">
     <ul>
-        <li>@Product.Name</li>
+        <li>@Product.ProductName</li>
         <li>Цена: @Product.Price</li>
     </ul>
 </div>
@@ -13,6 +17,7 @@
 @code {
 
     [Parameter]
-    public Product Product { get; set; }
+    public ProductResponse Product { get; set; }
+
 
 }

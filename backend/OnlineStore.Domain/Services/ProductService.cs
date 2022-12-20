@@ -12,17 +12,11 @@ public class ProductService
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public virtual async Task<IEnumerable<Product>> GetProducts(CancellationToken cts)
-    {
-        var products = await _unitOfWork.ProductRepository.GetAll(cts);
-        return products;
-    }
+    public virtual async Task<IEnumerable<Product>> GetProducts(CancellationToken cts) =>
+        await _unitOfWork.ProductRepository.GetAll(cts);
 
-    public virtual async Task<Product> GetProduct(Guid id, CancellationToken cts)
-    {
-        var product = await _unitOfWork.ProductRepository.GetById(id, cts);
-        return product;
-    }
+    public virtual async Task<Product> GetProduct(Guid id, CancellationToken cts) =>
+        await _unitOfWork.ProductRepository.GetById(id, cts);
 
     public virtual async Task<Product> AddProduct(string name, decimal price, CancellationToken cts)
     {

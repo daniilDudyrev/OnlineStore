@@ -6,7 +6,6 @@ namespace OnlineStore.Domain.Services;
 
 public class AccountService
 {
-    // private readonly IAccountRepository _accountRepository;
     private readonly IPasswordHasherService _passwordHasherService;
     private readonly ITokenService _tokenService;
     private readonly IUnitOfWork _unitOfWork;
@@ -14,7 +13,6 @@ public class AccountService
     public AccountService(IPasswordHasherService passwordHasherService,
         ITokenService tokenService, IUnitOfWork unitOfWork)
     {
-        // _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         _passwordHasherService =
             passwordHasherService ?? throw new ArgumentNullException(nameof(passwordHasherService));
         _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
@@ -43,7 +41,7 @@ public class AccountService
         var emailRegistered = existedAccount is not null;
         if (emailRegistered)
         {
-            throw new EmailExistsException("Email уже зарегистрирован");
+            throw new EmailExistsException("Email already exists");
         }
 
         var hashedPassword = _passwordHasherService.HashPassword(password);
@@ -72,12 +70,12 @@ public class AccountService
         var account = await _unitOfWork.AccountRepository.FindByEmail(email, cts);
         if (account == null)
         {
-            throw new EmailNotFoundException("Такого аккаунта не существует");
+            throw new EmailNotFoundException("There is no such account");
         }
 
         if (!_passwordHasherService.VerifyPassword(account.PasswordHash, password))
         {
-            throw new InvalidPasswordException("Неверный пароль");
+            throw new InvalidPasswordException("Invalid password");
         }
 
         var token = _tokenService.GenerateToken(account);

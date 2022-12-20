@@ -15,7 +15,7 @@ public class JwtTokenService : ITokenService
     {
         _jwtConfig = jwtConfig;
     }
-    
+
     public string GenerateToken(Account account)
     {
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -36,5 +36,4 @@ public class JwtTokenService : ITokenService
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
-
 }

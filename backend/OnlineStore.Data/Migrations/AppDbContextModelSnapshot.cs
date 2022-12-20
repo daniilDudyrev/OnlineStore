@@ -66,9 +66,6 @@ namespace OnlineStore.Data.Migrations
                     b.Property<Guid>("CartId")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("TEXT");
 
