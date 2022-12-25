@@ -36,8 +36,8 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class,
     public virtual async Task Update(TEntity entity, CancellationToken cts = default)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
-        Entities.Update(entity);
-
+        DbContext.Update(entity);
+        // DbContext.Entry(entity).State = EntityState.Modified;
         await DbContext.SaveChangesAsync(cts);
     }
 

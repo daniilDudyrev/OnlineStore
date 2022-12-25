@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<Product> Products => Set<Product>();
+    // public DbSet<Category> Categories => Set <Category>();
 
     public AppDbContext(
         DbContextOptions<AppDbContext> options)
@@ -32,5 +33,10 @@ public class AppDbContext : DbContext
                 .WithMany(dto => dto.Items)
                 .IsRequired();
         });
+
+        // modelBuilder.Entity<Product>()
+        //     .HasOne<Category>()
+        //     .WithMany()
+        //     .HasForeignKey(dto => dto.CategoryId);
     }
 }

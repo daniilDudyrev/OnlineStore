@@ -7,4 +7,8 @@
         <RootNamespace>OnlineStore.Models</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\backend\OnlineStore.Domain\OnlineStore.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

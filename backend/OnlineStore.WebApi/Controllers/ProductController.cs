@@ -30,7 +30,8 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ProductResponse>> GetProduct(Guid id, CancellationToken cts)
     {
         var product = await _productService.GetProduct(id, cts);
-        return new ProductResponse(product.Id, product.Name, product.Price);
+        return new ProductResponse(product.Id, product.Name, product.Price, product.Image, product.Description,
+            product.CategoryId);
     }
 
     [HttpPost("add")]
@@ -41,8 +42,10 @@ public class ProductController : ControllerBase
             throw new ArgumentNullException(nameof(request));
         }
 
-        var product = await _productService.AddProduct(request.Name, request.Price, cts);
-        return new ProductResponse(product.Id, product.Name, product.Price);
+        var product = await _productService.AddProduct(request.Name, request.Price, request.Image, request.Description,
+            request.CategoryId, cts);
+        return new ProductResponse(product.Id, product.Name, product.Price, product.Image, product.Description,
+            product.CategoryId);
     }
 
     [HttpPut("update")]
@@ -53,14 +56,17 @@ public class ProductController : ControllerBase
             throw new ArgumentNullException(nameof(request));
         }
 
-        var product = await _productService.UpdateProduct(request.Name, cts);
-        return new ProductResponse(product.Id, product.Name, product.Price);
+        var product = await _productService.UpdateProduct(request.Name, request.Price, request.Image,
+            request.Description, request.CategoryId, cts);
+        return new ProductResponse(product.Id, product.Name, product.Price, product.Image, product.Description,
+            product.CategoryId);
     }
-
+    
     [HttpDelete("delete_by_id")]
     public async Task<ActionResult<ProductResponse>> DeleteProduct(Guid id, CancellationToken cts)
     {
         var product = await _productService.DeleteProduct(id, cts);
-        return new ProductResponse(product.Id, product.Name, product.Price);
+        return new ProductResponse(product.Id, product.Name, product.Price, product.Image, product.Description,
+            product.CategoryId);
     }
 }
