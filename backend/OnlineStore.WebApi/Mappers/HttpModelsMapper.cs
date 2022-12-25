@@ -10,4 +10,7 @@ public class HttpModelsMapper
 
     public virtual CartItemResponse MapCartItemModel(CartItem obj)
         => new(obj.ProductId, obj.Quantity);
+
+    public virtual OrderItemResponse MapOrderItemModel(OrderItem obj)
+        => new(obj.ProductId, obj.Quantity, obj.Price);
 }

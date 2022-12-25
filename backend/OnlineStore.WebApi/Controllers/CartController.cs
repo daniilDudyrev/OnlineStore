@@ -22,18 +22,18 @@ public class CartController : ControllerBase
 
     [Authorize]
     [HttpGet("get")]
-    public async Task<ActionResult<CartResponse>> GetCart()
+    public async Task<ActionResult<CartResponse>> GetCart(CancellationToken cts)
     {
-        var cart = await _cartService.GetCartForAccount(User.GetAccountId());
+        var cart = await _cartService.GetCartForAccount(User.GetAccountId(), cts);
         return new CartResponse(cart.Items.Select(_mapper.MapCartItemModel), cart.Id, cart.AccountId, cart.ItemCount);
     }
 
     [Authorize]
     [HttpPost("add_item")]
-    public async Task<ActionResult<CartItemResponse>> AddItem(Guid productId, int quantity = 1)
+    public async Task<ActionResult<CartItemResponse>> AddItem(Guid productId, CancellationToken cts, int quantity = 1)
     {
         var accountId = User.GetAccountId();
-        await _cartService.AddItem(accountId, productId, 1);
+        await _cartService.AddItem(accountId, productId, cts);
         return new CartItemResponse(productId, quantity);
     }
 }

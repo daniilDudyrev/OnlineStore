@@ -1,12 +1,12 @@
 ﻿namespace OnlineStore.Domain.Entities;
 
-public record CartItem : IEntity
+public record OrderItem : IEntity
 {
-    protected CartItem()
+    protected OrderItem()
     {
     }
 
-    public CartItem(Guid id, Guid productId, int quantity, decimal price)
+    public OrderItem(Guid id, Guid productId, int quantity, decimal price)
     {
         Id = id;
         ProductId = productId;
@@ -18,7 +18,6 @@ public record CartItem : IEntity
     public Guid ProductId { get; init; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
-
-    public Guid CartId { get; set; }
-    public Cart Cart { get; set; } = null!;
+    public Guid OrderId { get; set; }
+    public Order Order { get; set; } = null!;
 }

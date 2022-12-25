@@ -9,15 +9,17 @@ public class UnitOfWorkEf : IUnitOfWork, IDisposable
     public ICartRepository CartRepository { get; }
     public IProductRepository ProductRepository { get; }
     public ICategoryRepository CategoryRepository { get; }
+    public IOrderRepository OrderRepository { get; }
 
     public UnitOfWorkEf(AppDbContext dbContext, IAccountRepository accountRepository, ICartRepository cartRepository,
-        IProductRepository productRepository, ICategoryRepository categoryRepository)
+        IProductRepository productRepository, ICategoryRepository categoryRepository, IOrderRepository orderRepository)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         AccountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         CartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
         ProductRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         CategoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
+        OrderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
     }
 
     public Task SaveChangesAsync(CancellationToken cancellationToken = default)

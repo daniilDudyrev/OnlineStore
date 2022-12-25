@@ -17,14 +17,14 @@ public record Cart : IEntity
     public Guid Id { get; init; }
     public Guid AccountId { get; set; }
 
-    private List<CartItem> _items;
+    private readonly List<CartItem> _items;
     public IReadOnlyCollection<CartItem> Items => _items.AsReadOnly();
 
     public int ItemCount => Items.Count;
 
-    public void Add(Guid productId, int quantity)
+    public void Add(Product product, int quantity)
     {
-        var cartItem = Items.SingleOrDefault(it => it.ProductId == productId);
+        var cartItem = Items.SingleOrDefault(it => it.ProductId == product.Id);
         if (cartItem is not null)
         {
             var newQty = cartItem.Quantity + quantity;
@@ -37,7 +37,7 @@ public record Cart : IEntity
         }
         else
         {
-            cartItem = new CartItem(Guid.Empty, productId, quantity);
+            cartItem = new CartItem(Guid.Empty, product.Id, quantity, product.Price);
             _items.Add(cartItem);
         }
     }
