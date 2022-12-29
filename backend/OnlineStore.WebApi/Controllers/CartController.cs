@@ -30,10 +30,28 @@ public class CartController : ControllerBase
 
     [Authorize]
     [HttpPost("add_item")]
-    public async Task<ActionResult<CartItemResponse>> AddItem(Guid productId, CancellationToken cts, int quantity = 1)
+    public async Task<ActionResult<CartItemResponse>> AddItem(Guid productId, CancellationToken cts, int quantity)
     {
         var accountId = User.GetAccountId();
-        await _cartService.AddItem(accountId, productId, cts);
-        return new CartItemResponse(productId, quantity);
+        var cartItem = await _cartService.AddItem(accountId, productId, cts, quantity);
+        return new CartItemResponse(cartItem.Id, productId, quantity);
+    }
+
+    [Authorize]
+    [HttpDelete("delete_item")]
+    public async Task<ActionResult<CartItemResponse>> DeleteItem(Guid id, int quantity, CancellationToken cts)
+    {
+        var accountId = User.GetAccountId();
+        var cartItem = await _cartService.DeleteItem(id, accountId, cts);
+        return new CartItemResponse(cartItem.Id, cartItem.ProductId, quantity);
+    }
+
+    [Authorize]
+    [HttpDelete("clear")]
+    public async Task<ActionResult<CartResponse>> ClearCart(CancellationToken cts)
+    {
+        var accountId = User.GetAccountId();
+        var cart = await _cartService.ClearCart(accountId, cts);
+        return new CartResponse(cart.Items.Select(_mapper.MapCartItemModel), cart.Id, cart.AccountId, cart.ItemCount);
     }
 }

@@ -22,18 +22,32 @@ public class CartService
         var cartItems = cart.Items;
         return cartItems;
     }
-    
-    public virtual async Task AddItem(Guid accountId, Guid productId, CancellationToken cts, int quantity = 1)
+
+    public virtual async Task<CartItem> AddItem(Guid accountId, Guid productId, CancellationToken cts, int quantity)
     {
         var cart = await _unitOfWork.CartRepository.GetByAccountId(accountId, cts);
         var product = await _unitOfWork.ProductRepository.GetById(productId, cts);
-        cart.Add(product, quantity);
+        var cartItem = cart.Add(product, quantity);
         await _unitOfWork.CartRepository.Update(cart, cts);
         await _unitOfWork.SaveChangesAsync(cts);
+        return cartItem;
     }
-    
-    // public virtual async Task<CartItem> DeleteItem(Guid id, CancellationToken cts)
-    // {
-    //     
-    // }
+
+    public virtual async Task<CartItem> DeleteItem(Guid id, Guid accountId, CancellationToken cts)
+    {
+        var cart = await _unitOfWork.CartRepository.GetByAccountId(accountId, cts);
+        var cartItem = await _unitOfWork.CartRepository.GetItemById(id, accountId, cts);
+        cart.DeleteItem(id);
+        await _unitOfWork.SaveChangesAsync(cts);
+        return cartItem;
+    }
+
+
+    public virtual async Task<Cart> ClearCart(Guid accountId, CancellationToken cts)
+    {
+        var cart = await _unitOfWork.CartRepository.GetByAccountId(accountId, cts);
+        cart.Clear();
+        await _unitOfWork.SaveChangesAsync(cts);
+        return cart;
+    }
 }

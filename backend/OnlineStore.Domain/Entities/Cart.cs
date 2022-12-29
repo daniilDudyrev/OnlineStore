@@ -22,7 +22,7 @@ public record Cart : IEntity
 
     public int ItemCount => Items.Count;
 
-    public void Add(Product product, int quantity)
+    public CartItem Add(Product product, int quantity)
     {
         var cartItem = Items.SingleOrDefault(it => it.ProductId == product.Id);
         if (cartItem is not null)
@@ -40,5 +40,17 @@ public record Cart : IEntity
             cartItem = new CartItem(Guid.Empty, product.Id, quantity, product.Price);
             _items.Add(cartItem);
         }
+
+        return cartItem;
+    }
+
+    public void Clear()
+    {
+        _items.Clear();
+    }
+
+    public void DeleteItem(Guid id)
+    {
+        var cartItem = _items.Remove(_items.SingleOrDefault(it => it.Id == id)!);
     }
 }
