@@ -1,3 +1,3 @@
 ﻿namespace OnlineStore.Models.Responses;
 
-public record CartItemResponse(Guid ProductId, int Quantity);
+public record CartItemResponse(Guid Id, Guid ProductId, int Quantity);
