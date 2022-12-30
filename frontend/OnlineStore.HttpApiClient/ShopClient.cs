@@ -112,6 +112,46 @@ public class ShopClient : IShopClient
         return response!;
     }
 
+    public async Task<CategoriesResponse> GetCategories(CancellationToken cts = default)
+    {
+        var uri = $"{_host}/categories/get_all";
+        var responseMessage = await _httpClient.GetFromJsonAsync<CategoriesResponse>(uri, cts);
+        return responseMessage!;
+    }
+
+    public async Task<CategoryResponse> GetCategory(Guid id, CancellationToken cts = default)
+    {
+        var uri = $"{_host}/categories/get_by_id?id={id}";
+        var responseMessage = await _httpClient.GetFromJsonAsync<CategoryResponse>(uri, cts);
+        return responseMessage!;
+    }
+
+    public async Task AddCategory(CategoryRequest category, CancellationToken cts = default)
+    {
+        if (category is null)
+        {
+            throw new ArgumentNullException(nameof(category));
+        }
+
+        var uri = $"{_host}/categories/add";
+        var responseMessage = await _httpClient.PostAsJsonAsync(uri, category, cts);
+        responseMessage.EnsureSuccessStatusCode();
+    }
+
+    public async Task UpdateCategory(Guid id, CategoryRequest category, CancellationToken cts = default)
+    {
+        var uri = $"{_host}/categories/update/{id}";
+        var responseMessage = await _httpClient.PutAsJsonAsync(uri, category, cts);
+        responseMessage.EnsureSuccessStatusCode();
+    }
+
+    public async Task DeleteCategoryById(Guid id, CancellationToken cts = default)
+    {
+        var uri = $"{_host}/categories/delete_by_id/{id}";
+        var responseMessage = await _httpClient.DeleteAsync(uri, cts);
+        responseMessage.EnsureSuccessStatusCode();
+    }
+
     public void SetAuthToken(string token)
     {
         if (token == null)

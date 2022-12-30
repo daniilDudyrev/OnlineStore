@@ -1,0 +1,28 @@
+﻿@page "/categories"
+
+@using OnlineStore.Models.Responses
+@inherits OnlineStore.BlazorClient.Components.AppComponentBase
+
+<h3>CategoriesPage</h3>
+
+<div class="productsList">
+    @if (_categories is not null)
+    {
+        foreach (var category in _categories.Categories)
+        {
+            <p>@category.CategoryId</p>
+            <p>@category.CategoryName</p>
+        }
+    }
+</div>
+
+@code {
+
+    private CategoriesResponse? _categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _categories = await ShopClient.GetCategories();
+    }
+}

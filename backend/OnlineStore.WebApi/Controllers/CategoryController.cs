@@ -3,6 +3,7 @@ using OnlineStore.Domain.Entities;
 using OnlineStore.Domain.Services;
 using OnlineStore.Models.Requests;
 using OnlineStore.Models.Responses;
+using OnlineStore.WebApi.Mappers;
 
 namespace OnlineStore.WebApi.Controllers;
 
@@ -10,17 +11,20 @@ namespace OnlineStore.WebApi.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly CategoryService _categoryService;
+    private readonly HttpModelsMapper _mapper;
 
-    public CategoryController(CategoryService categoryService)
+
+    public CategoryController(CategoryService categoryService, HttpModelsMapper mapper)
     {
         _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     [HttpGet("get_all")]
-    public async Task<ActionResult<IReadOnlyCollection<Category>>> GetCategories(CancellationToken cts)
+    public async Task<ActionResult<CategoriesResponse>> GetCategories(CancellationToken cts)
     {
         var categories = await _categoryService.GetCategories(cts);
-        return categories.ToList();
+        return new CategoriesResponse(categories.Select(_mapper.MapCategoryModel));
     }
 
     [HttpGet("get_by_id")]

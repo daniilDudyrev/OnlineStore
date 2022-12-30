@@ -10,7 +10,6 @@
 
 <h3>Список товаров</h3>
 
-@* @inject IShopClient ShopClient; *@
 @inject IToastService ToastService;
 
 <div class="productsList">
@@ -40,28 +39,4 @@
         await ShopClient.AddToCart(productId);
         ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
     }
-    
-    // private async Task AddToCart(Product product)
-    // {
-    //     var cartItem = new CartItem();
-    //     cartItem.ProductId = product.Id;
-    //     cartItem.Price = product.Price;
-    //     cartItem.Id = Guid.NewGuid();
-    //     cartItem.Quantity = 1;
-    //     await ShopClient.AddToCart(cartItem);
-    //     ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
-    // }
-
-    // private async Task AddToCart()
-    // {
-    // var cartItem = new CartItem
-    // {
-    //     ProductId = Guid.NewGuid(),
-    //     Price = 240m,
-    //     Id = Guid.NewGuid(),
-    //     Quantity = 1
-    // };
-    // await ShopClient.AddToCart(cartItem);
-    // ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
-    // }
 }

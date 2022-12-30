@@ -18,4 +18,9 @@ public interface IShopClient
     Task<Account> GetAccount(CancellationToken cts = default);
     Task<CartResponse> GetItemsInCart(CancellationToken cts = default);
     Task<CartItemResponse> AddToCart(Guid productId, CancellationToken cts = default);
+    Task<CategoriesResponse> GetCategories(CancellationToken cts = default);
+    Task<CategoryResponse> GetCategory(Guid id, CancellationToken cts = default);
+    Task AddCategory(CategoryRequest category, CancellationToken cts = default);
+    Task UpdateCategory(Guid id, CategoryRequest category, CancellationToken cts = default);
+    Task DeleteCategoryById(Guid id, CancellationToken cts = default);
 }
