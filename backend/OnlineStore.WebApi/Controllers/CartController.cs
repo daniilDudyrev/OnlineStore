@@ -22,36 +22,36 @@ public class CartController : ControllerBase
 
     [Authorize]
     [HttpGet("get")]
-    public async Task<ActionResult<CartResponse>> GetCart(CancellationToken cts)
+    public async Task<ActionResult<CartResponse>> GetCart(CancellationToken cancellationToken)
     {
-        var cart = await _cartService.GetCartForAccount(User.GetAccountId(), cts);
+        var cart = await _cartService.GetCartForAccount(User.GetAccountId(), cancellationToken);
         return new CartResponse(cart.Items.Select(_mapper.MapCartItemModel), cart.Id, cart.AccountId, cart.ItemCount);
     }
 
     [Authorize]
     [HttpPost("add_item")]
-    public async Task<ActionResult<CartItemResponse>> AddItem(Guid productId, CancellationToken cts, int quantity)
+    public async Task<ActionResult<CartItemResponse>> AddItem(Guid productId, CancellationToken cancellationToken, int quantity)
     {
         var accountId = User.GetAccountId();
-        var cartItem = await _cartService.AddItem(accountId, productId, cts, quantity);
+        var cartItem = await _cartService.AddItem(accountId, productId, cancellationToken, quantity);
         return new CartItemResponse(cartItem.Id, productId, quantity);
     }
 
     [Authorize]
     [HttpDelete("delete_item")]
-    public async Task<ActionResult<CartItemResponse>> DeleteItem(Guid id, int quantity, CancellationToken cts)
+    public async Task<ActionResult<CartItemResponse>> DeleteItem(Guid id, int quantity, CancellationToken cancellationToken)
     {
         var accountId = User.GetAccountId();
-        var cartItem = await _cartService.DeleteItem(id, accountId, cts);
+        var cartItem = await _cartService.DeleteItem(id, accountId, quantity, cancellationToken);
         return new CartItemResponse(cartItem.Id, cartItem.ProductId, quantity);
     }
 
     [Authorize]
     [HttpDelete("clear")]
-    public async Task<ActionResult<CartResponse>> ClearCart(CancellationToken cts)
+    public async Task<ActionResult<CartResponse>> ClearCart(CancellationToken cancellationToken)
     {
         var accountId = User.GetAccountId();
-        var cart = await _cartService.ClearCart(accountId, cts);
+        var cart = await _cartService.ClearCart(accountId, cancellationToken);
         return new CartResponse(cart.Items.Select(_mapper.MapCartItemModel), cart.Id, cart.AccountId, cart.ItemCount);
     }
 }

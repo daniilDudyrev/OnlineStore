@@ -51,6 +51,6 @@ public record Cart : IEntity
 
     public void DeleteItem(Guid id)
     {
-        var cartItem = _items.Remove(_items.SingleOrDefault(it => it.Id == id)!);
+        _items.Remove(_items.SingleOrDefault(it => it.Id == id)!);
     }
 }

@@ -15,35 +15,34 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class,
 
     protected DbSet<TEntity> Entities => DbContext.Set<TEntity>();
 
-    public virtual async Task<TEntity> GetById(Guid id, CancellationToken cts = default)
+    public virtual async Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await Entities.FirstAsync(it => it.Id == id, cts);
+        var entity = await Entities.FirstAsync(it => it.Id == id, cancellationToken);
         return entity;
     }
 
-    public virtual async Task<IReadOnlyList<TEntity>> GetAll(CancellationToken cts = default)
+    public virtual async Task<IReadOnlyList<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
-        var entities = await Entities.ToListAsync(cts);
+        var entities = await Entities.ToListAsync(cancellationToken);
         return entities;
     }
 
-    public virtual async Task Add(TEntity entity, CancellationToken cts = default)
+    public virtual async Task Add(TEntity entity, CancellationToken cancellationToken = default)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
-        await Entities.AddAsync(entity, cts);
+        await Entities.AddAsync(entity, cancellationToken);
     }
 
-    public virtual async Task Update(TEntity entity, CancellationToken cts = default)
+    public virtual async Task Update(TEntity entity, CancellationToken cancellationToken = default)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
         DbContext.Update(entity);
-        // DbContext.Entry(entity).State = EntityState.Modified;
-        await DbContext.SaveChangesAsync(cts);
+        // await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public virtual async Task<TEntity> DeleteById(Guid id, CancellationToken cts = default)
+    public virtual async Task<TEntity> DeleteById(Guid id, CancellationToken cancellationToken = default)
     {
-        var delEntity = await Entities.FirstAsync(it => it.Id == id, cts);
+        var delEntity = await Entities.FirstAsync(it => it.Id == id, cancellationToken);
         Entities.Remove(delEntity);
         return delEntity;
     }

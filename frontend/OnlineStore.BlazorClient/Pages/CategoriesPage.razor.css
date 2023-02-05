@@ -1,0 +1,9 @@
+﻿.categoriesList {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    width: max-content;
+    height: 1000px;
+    border-style: groove;
+    border-color: #4f5050;
+}

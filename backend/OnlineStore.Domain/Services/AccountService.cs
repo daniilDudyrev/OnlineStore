@@ -20,7 +20,7 @@ public class AccountService
     }
 
     public virtual async Task<(Account account, string token)> Register(string name, string email, string password,
-        CancellationToken cts)
+        CancellationToken cancellationToken)
     {
         if (name == null)
         {
@@ -37,7 +37,7 @@ public class AccountService
             throw new ArgumentNullException(nameof(password));
         }
 
-        var existedAccount = await _unitOfWork.AccountRepository.FindByEmail(email, cts);
+        var existedAccount = await _unitOfWork.AccountRepository.FindByEmail(email, cancellationToken);
         var emailRegistered = existedAccount is not null;
         if (emailRegistered)
         {
@@ -47,15 +47,15 @@ public class AccountService
         var hashedPassword = _passwordHasherService.HashPassword(password);
         var account = new Account(Guid.NewGuid(), name, email, hashedPassword);
         var cart = new Cart(Guid.NewGuid(), account.Id, new List<CartItem>());
-        await _unitOfWork.AccountRepository.Add(account, cts);
-        await _unitOfWork.CartRepository.Add(cart, cts);
-        await _unitOfWork.SaveChangesAsync(cts);
+        await _unitOfWork.AccountRepository.Add(account, cancellationToken);
+        await _unitOfWork.CartRepository.Add(cart, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         var token = _tokenService.GenerateToken(account);
         return (account, token);
     }
 
     public virtual async Task<(Account account, string token)> Authentication(string email, string password,
-        CancellationToken cts)
+        CancellationToken cancellationToken)
     {
         if (email == null)
         {
@@ -67,7 +67,7 @@ public class AccountService
             throw new ArgumentNullException(nameof(password));
         }
 
-        var account = await _unitOfWork.AccountRepository.FindByEmail(email, cts);
+        var account = await _unitOfWork.AccountRepository.FindByEmail(email, cancellationToken);
         if (account == null)
         {
             throw new EmailNotFoundException("There is no such account");
@@ -82,9 +82,9 @@ public class AccountService
         return (account, token);
     }
 
-    public async Task<Account> GetAccount(Guid accountId, CancellationToken cts) =>
-        await _unitOfWork.AccountRepository.GetById(accountId, cts);
+    public async Task<Account> GetAccount(Guid accountId, CancellationToken cancellationToken) =>
+        await _unitOfWork.AccountRepository.GetById(accountId, cancellationToken);
 
-    public async Task<IReadOnlyCollection<Account>> GetAll(CancellationToken cts) =>
-        await _unitOfWork.AccountRepository.GetAll(cts);
+    public async Task<IReadOnlyCollection<Account>> GetAll(CancellationToken cancellationToken) =>
+        await _unitOfWork.AccountRepository.GetAll(cancellationToken);
 }

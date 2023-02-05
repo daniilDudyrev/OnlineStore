@@ -14,18 +14,18 @@ public class OrderRepository : EfRepository<Order>, IOrderRepository
         }
     }
 
-    public async Task<Order> GetByAccountId(Guid accountId, CancellationToken cts = default)
+    public async Task<Order> GetByAccountId(Guid accountId, CancellationToken cancellationToken = default)
     {
         var order = await Entities
-                        .SingleOrDefaultAsync(it => it.AccountId == accountId, cts)
+                        .SingleOrDefaultAsync(it => it.AccountId == accountId, cancellationToken)
                     ?? Entities.Local.Single(it => it.AccountId == accountId);
         return order;
     }
 
-    public async Task<Order?> FindByAccountId(Guid accountId, CancellationToken cts = default)
+    public async Task<Order?> FindByAccountId(Guid accountId, CancellationToken cancellationToken = default)
     {
         var order = await Entities.FirstOrDefaultAsync(
-                        it => it.AccountId == accountId, cts)
+                        it => it.AccountId == accountId, cancellationToken)
                     ?? Entities.Local.FirstOrDefault(it => it.AccountId == accountId);
         return order;
     }

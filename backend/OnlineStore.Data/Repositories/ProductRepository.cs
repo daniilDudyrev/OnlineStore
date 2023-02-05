@@ -21,7 +21,7 @@ public class ProductRepository : EfRepository<Product>, IProductRepository
         return Entities.FirstAsync(it => it.Name == name, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Product>> FindByName(string name, CancellationToken cts = default)
+    public async Task<IReadOnlyList<Product>> FindByName(string name, CancellationToken cancellationToken = default)
     {
         if (name == null)
         {
@@ -30,7 +30,15 @@ public class ProductRepository : EfRepository<Product>, IProductRepository
 
         var products = await Entities
             .Where(it => it.Name.Contains(name))
-            .ToListAsync(cts);
+            .ToListAsync(cancellationToken);
+        return products;
+    }
+
+    public async Task<IReadOnlyList<Product>> GetProductsByCategoryId(Guid categoryId, CancellationToken cancellationToken = default)
+    {
+        var products = await Entities
+            .Where(it => it.CategoryId == categoryId)
+            .ToListAsync(cancellationToken);
         return products;
     }
 }

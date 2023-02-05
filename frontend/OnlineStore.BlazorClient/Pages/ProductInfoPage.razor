@@ -1,9 +1,9 @@
 ﻿@page "/productInfo/{ProductId:guid}"
-@using OnlineStore.Domain.Entities
-@using OnlineStore.HttpApiClient
+@using OnlineStore.BlazorClient.Components
 @using OnlineStore.Models.Responses
 
-@inject IShopClient ShopClient
+@inherits AppComponentBase
+
 
 <h3>Информация о товаре</h3>
 @if (_product != null)

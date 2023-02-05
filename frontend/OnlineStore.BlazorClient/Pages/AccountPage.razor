@@ -1,6 +1,10 @@
 ﻿@page "/account"
 @using OnlineStore.Domain.Entities
+@using OnlineStore.Models.Requests
+@using Microsoft.AspNetCore.Components
 @inherits OnlineStore.BlazorClient.Components.AppComponentBase
+
+@inject NavigationManager NavigationManager;
 
 <h3>Информация об аккаунте</h3>
 
@@ -18,5 +22,4 @@
         await base.OnInitializedAsync();
         _account = await ShopClient.GetAccount();
     }
-
 }

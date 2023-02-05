@@ -1,0 +1,41 @@
+﻿@page "/category/{CategoryId:guid}"
+@using OnlineStore.Models.Responses
+@using Blazored.Toast.Services
+@using OnlineStore.BlazorClient.Components
+
+@inherits AppComponentBase
+@inject IToastService ToastService;
+
+
+<h3>@_category.CategoryName</h3>
+
+@if (_products is not null)
+{
+    foreach (var product in _products.Products)
+    {
+        <ProductItem Product="product"/>
+        <button class="btn btn-success" id="btnAddToCart" @onclick="@(() => AddToCart(product.ProductId))">Добавить в корзину</button>
+    }
+}
+
+@code {
+
+    [Parameter]
+    public Guid CategoryId { get; set; }
+
+    private ProductsResponse _products;
+    private CategoryResponse _category;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _products = await ShopClient.GetProductsByCategoryId(CategoryId);
+        _category = await ShopClient.GetCategory(CategoryId);
+    }
+
+    private async Task AddToCart(Guid productId)
+    {
+        await ShopClient.AddToCart(productId);
+        ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
+    }
+}

@@ -21,48 +21,48 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("get_all")]
-    public async Task<ActionResult<CategoriesResponse>> GetCategories(CancellationToken cts)
+    public async Task<ActionResult<CategoriesResponse>> GetCategories(CancellationToken cancellationToken)
     {
-        var categories = await _categoryService.GetCategories(cts);
+        var categories = await _categoryService.GetCategories(cancellationToken);
         return new CategoriesResponse(categories.Select(_mapper.MapCategoryModel));
     }
 
     [HttpGet("get_by_id")]
-    public async Task<ActionResult<CategoryResponse>> GetCategory(Guid id, CancellationToken cts)
+    public async Task<ActionResult<CategoryResponse>> GetCategory(Guid id, CancellationToken cancellationToken)
     {
-        var category = await _categoryService.GetCategory(id, cts);
+        var category = await _categoryService.GetCategory(id, cancellationToken);
         return new CategoryResponse(category.Id, category.Name);
     }
 
 
     [HttpPost("add")]
-    public async Task<ActionResult<CategoryResponse>> AddCategory(CategoryRequest request, CancellationToken cts)
+    public async Task<ActionResult<CategoryResponse>> AddCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
         if (request == null)
         {
             throw new ArgumentNullException(nameof(request));
         }
 
-        var category = await _categoryService.AddCategory(request.Name, cts);
+        var category = await _categoryService.AddCategory(request.Name, cancellationToken);
         return new CategoryResponse(category.Id, category.Name);
     }
 
     [HttpPut("update")]
-    public async Task<ActionResult<CategoryResponse>> UpdateCategory(CategoryRequest request, CancellationToken cts)
+    public async Task<ActionResult<CategoryResponse>> UpdateCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
         if (request == null)
         {
             throw new ArgumentNullException(nameof(request));
         }
 
-        var category = await _categoryService.UpdateCategory(request.Name, cts);
+        var category = await _categoryService.UpdateCategory(request.Name, cancellationToken);
         return new CategoryResponse(category.Id, category.Name);
     }
 
     [HttpDelete("delete_by_id")]
-    public async Task<ActionResult<CategoryResponse>> DeleteCategory(Guid id, CancellationToken cts)
+    public async Task<ActionResult<CategoryResponse>> DeleteCategory(Guid id, CancellationToken cancellationToken)
     {
-        var category = await _categoryService.DeleteCategory(id, cts);
+        var category = await _categoryService.DeleteCategory(id, cancellationToken);
         return new CategoryResponse(category.Id, category.Name);
     }
 }

@@ -12,13 +12,13 @@ public class CategoryService
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public virtual async Task<IReadOnlyCollection<Category>> GetCategories(CancellationToken cts) =>
-        await _unitOfWork.CategoryRepository.GetAll(cts);
+    public virtual async Task<IReadOnlyCollection<Category>> GetCategories(CancellationToken cancellationToken) =>
+        await _unitOfWork.CategoryRepository.GetAll(cancellationToken);
 
-    public virtual async Task<Category> GetCategory(Guid id, CancellationToken cts) =>
-        await _unitOfWork.CategoryRepository.GetById(id, cts);
+    public virtual async Task<Category> GetCategory(Guid id, CancellationToken cancellationToken) =>
+        await _unitOfWork.CategoryRepository.GetById(id, cancellationToken);
 
-    public virtual async Task<Category> AddCategory(string name, CancellationToken cts)
+    public virtual async Task<Category> AddCategory(string name, CancellationToken cancellationToken)
     {
         if (name == null)
         {
@@ -26,27 +26,27 @@ public class CategoryService
         }
 
         var category = new Category(Guid.NewGuid(), name);
-        await _unitOfWork.CategoryRepository.Add(category, cts);
-        await _unitOfWork.SaveChangesAsync(cts);
+        await _unitOfWork.CategoryRepository.Add(category, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return category;
     }
 
-    public virtual async Task<Category> UpdateCategory(string name, CancellationToken cts)
+    public virtual async Task<Category> UpdateCategory(string name, CancellationToken cancellationToken)
     {
         if (name == null)
         {
             throw new ArgumentNullException(nameof(name));
         }
-        var category = await _unitOfWork.CategoryRepository.GetByName(name, cts);
-        await _unitOfWork.CategoryRepository.Update(category, cts);
-        await _unitOfWork.SaveChangesAsync(cts);
+        var category = await _unitOfWork.CategoryRepository.GetByName(name, cancellationToken);
+        await _unitOfWork.CategoryRepository.Update(category, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return category;
     }
 
-    public virtual async Task<Category> DeleteCategory(Guid id, CancellationToken cts)
+    public virtual async Task<Category> DeleteCategory(Guid id, CancellationToken cancellationToken)
     {
-        var category = await _unitOfWork.CategoryRepository.DeleteById(id, cts);
-        await _unitOfWork.SaveChangesAsync(cts);
+        var category = await _unitOfWork.CategoryRepository.DeleteById(id, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return category;
     }
 }

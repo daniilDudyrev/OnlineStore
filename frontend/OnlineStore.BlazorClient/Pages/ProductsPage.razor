@@ -1,17 +1,12 @@
 ﻿@page "/products"
-@using OnlineStore.HttpApiClient
 @using OnlineStore.BlazorClient.Components
-@using OnlineStore.Domain.Entities
 @using Blazored.Toast.Services
-@using Blazored.Toast
-@using OnlineStore.Models.Requests
 @using OnlineStore.Models.Responses
-@inherits OnlineStore.BlazorClient.Components.AppComponentBase
 
-<h3>Список товаров</h3>
-
+@inherits AppComponentBase
 @inject IToastService ToastService;
 
+<h3>Список товаров</h3>
 <div class="productsList">
     @if (_products is not null)
     {

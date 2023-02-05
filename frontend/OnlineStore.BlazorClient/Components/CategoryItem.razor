@@ -1,0 +1,15 @@
+﻿@using OnlineStore.Models.Responses
+
+@inherits AppComponentBase
+@inject NavigationManager NavigationManager
+
+<div class="category" @onclick="@(() => NavigationManager.NavigateTo($"/category/{Category.CategoryId}"))">
+    <p>@Category.CategoryName</p>
+</div>
+
+@code {
+
+    [Parameter]
+    public CategoryResponse Category { get; set; }
+
+}

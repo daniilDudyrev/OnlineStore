@@ -22,18 +22,18 @@ public class OrderController : ControllerBase
 
     [Authorize]
     [HttpGet("get")]
-    public async Task<ActionResult<OrderResponse>> GetOrder(CancellationToken cts)
+    public async Task<ActionResult<OrderResponse>> GetOrder(CancellationToken cancellationToken)
     {
-        var order = await _orderService.GetOrderForAccount(User.GetAccountId(), cts);
+        var order = await _orderService.GetOrderForAccount(User.GetAccountId(), cancellationToken);
         return new OrderResponse(order.Items.Select(_mapper.MapOrderItemModel), order.Id, order.AccountId, order.OrderDate);
     }
 
     [Authorize]
     [HttpPost("create_order")]
-    public async Task<ActionResult<OrderResponse>> CreateOrder(CancellationToken cts)
+    public async Task<ActionResult<OrderResponse>> CreateOrder(CancellationToken cancellationToken)
     {
         var accountId = User.GetAccountId();
-        var order = await _orderService.CreateOrder(accountId, cts);
+        var order = await _orderService.CreateOrder(accountId, cancellationToken);
         return new OrderResponse(order.Items.Select(_mapper.MapOrderItemModel), order.Id, order.AccountId,
             order.OrderDate);
     }

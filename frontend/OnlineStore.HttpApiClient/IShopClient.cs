@@ -6,21 +6,23 @@ namespace OnlineStore.HttpApiClient;
 
 public interface IShopClient
 {
-    Task<ProductsResponse> GetProducts(CancellationToken cts = default);
-    Task<ProductResponse> GetProduct(Guid id, CancellationToken cts = default);
-    Task AddProduct(Product product, CancellationToken cts = default);
-    Task UpdateProduct(Guid id, Product product, CancellationToken cts = default);
-    Task DeleteProductById(Guid id, CancellationToken cts = default);
-    Task<RegisterResponse> Register(RegisterRequest registerRequest, CancellationToken cts = default);
-    Task<AuthResponse> Authentication(AuthRequest authRequest, CancellationToken cts = default);
+    Task<ProductsResponse> GetProducts(CancellationToken cancellationToken = default);
+    Task<ProductsResponse> GetProductsByCategoryId(Guid categoryId, CancellationToken cancellationToken = default);
+
+    Task<ProductResponse> GetProduct(Guid id, CancellationToken cancellationToken = default);
+    Task AddProduct(Product product, CancellationToken cancellationToken = default);
+    Task UpdateProduct(Guid id, Product product, CancellationToken cancellationToken = default);
+    Task DeleteProductById(Guid id, CancellationToken cancellationToken = default);
+    Task<RegisterResponse> Register(RegisterRequest registerRequest, CancellationToken cancellationToken = default);
+    Task<AuthResponse> Authentication(AuthRequest authRequest, CancellationToken cancellationToken = default);
     void SetAuthToken(string token);
     void ResetAuthToken();
-    Task<Account> GetAccount(CancellationToken cts = default);
-    Task<CartResponse> GetItemsInCart(CancellationToken cts = default);
-    Task<CartItemResponse> AddToCart(Guid productId, CancellationToken cts = default);
-    Task<CategoriesResponse> GetCategories(CancellationToken cts = default);
-    Task<CategoryResponse> GetCategory(Guid id, CancellationToken cts = default);
-    Task AddCategory(CategoryRequest category, CancellationToken cts = default);
-    Task UpdateCategory(Guid id, CategoryRequest category, CancellationToken cts = default);
-    Task DeleteCategoryById(Guid id, CancellationToken cts = default);
+    Task<Account> GetAccount(CancellationToken cancellationToken = default);
+    Task<CartResponse> GetItemsInCart(CancellationToken cancellationToken = default);
+    Task<CartItemResponse> AddToCart(Guid productId, CancellationToken cancellationToken = default);
+    Task<CategoriesResponse> GetCategories(CancellationToken cancellationToken = default);
+    Task<CategoryResponse> GetCategory(Guid id, CancellationToken cancellationToken = default);
+    Task AddCategory(CategoryRequest category, CancellationToken cancellationToken = default);
+    Task UpdateCategory(Guid id, CategoryRequest category, CancellationToken cancellationToken = default);
+    Task DeleteCategoryById(Guid id, CancellationToken cancellationToken = default);
 }

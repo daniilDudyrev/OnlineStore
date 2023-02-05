@@ -21,7 +21,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest request, CancellationToken cts)
+    public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest request, CancellationToken cancellationToken)
     {
         if (request == null)
         {
@@ -30,7 +30,7 @@ public class AccountController : ControllerBase
 
         try
         {
-            var (account, token) = await _accountService.Register(request.Name, request.Email, request.Password, cts);
+            var (account, token) = await _accountService.Register(request.Name, request.Email, request.Password, cancellationToken);
             return new RegisterResponse(account.Id, account.Name, account.Email, token);
         }
         catch (EmailExistsException)
@@ -40,7 +40,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("authentication")]
-    public async Task<ActionResult<AuthResponse>> Authentication(AuthRequest request, CancellationToken cts)
+    public async Task<ActionResult<AuthResponse>> Authentication(AuthRequest request, CancellationToken cancellationToken)
     {
         if (request == null)
         {
@@ -49,7 +49,7 @@ public class AccountController : ControllerBase
 
         try
         {
-            var (account, token) = await _accountService.Authentication(request.Email, request.Password, cts);
+            var (account, token) = await _accountService.Authentication(request.Email, request.Password, cancellationToken);
             return new AuthResponse(account.Id, account.Name, account.Email, token);
         }
         catch (EmailNotFoundException)
@@ -64,11 +64,11 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpGet("get_current")]
-    public async Task<ActionResult<Account>> GetCurrentAccount(CancellationToken cts) =>
-        await _accountService.GetAccount(User.GetAccountId(), cts);
+    public async Task<ActionResult<Account>> GetCurrentAccount(CancellationToken cancellationToken) =>
+        await _accountService.GetAccount(User.GetAccountId(), cancellationToken);
 
     [Authorize(Roles = $"{Roles.Admin}")]
     [HttpGet("get_all")]
-    public async Task<IReadOnlyCollection<Account>> GetAllAccounts(CancellationToken cts) =>
-        await _accountService.GetAll(cts);
+    public async Task<IReadOnlyCollection<Account>> GetAllAccounts(CancellationToken cancellationToken) =>
+        await _accountService.GetAll(cancellationToken);
 }

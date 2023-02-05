@@ -1,0 +1,9 @@
+﻿.category {
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    margin: 10px;
+    width: max-content;
+    height: 150px;
+    border-style: groove;
+    border-color: #4f5050;
+}
