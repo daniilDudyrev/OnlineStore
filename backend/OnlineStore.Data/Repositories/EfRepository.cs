@@ -29,15 +29,21 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class,
 
     public virtual async Task Add(TEntity entity, CancellationToken cancellationToken = default)
     {
-        if (entity == null) throw new ArgumentNullException(nameof(entity));
+        if (entity == null)
+        {
+            throw new ArgumentNullException(nameof(entity));
+        }
         await Entities.AddAsync(entity, cancellationToken);
     }
 
-    public virtual async Task Update(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual ValueTask Update(TEntity entity, CancellationToken cancellationToken = default)
     {
-        if (entity == null) throw new ArgumentNullException(nameof(entity));
+        if (entity == null)
+        {
+            throw new ArgumentNullException(nameof(entity));
+        }
         DbContext.Update(entity);
-        // await DbContext.SaveChangesAsync(cancellationToken);
+        return ValueTask.CompletedTask;
     }
 
     public virtual async Task<TEntity> DeleteById(Guid id, CancellationToken cancellationToken = default)

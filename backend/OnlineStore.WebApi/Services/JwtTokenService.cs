@@ -13,7 +13,7 @@ public class JwtTokenService : ITokenService
 
     public JwtTokenService(JwtConfig jwtConfig)
     {
-        _jwtConfig = jwtConfig;
+        _jwtConfig = jwtConfig ?? throw new ArgumentNullException(nameof(jwtConfig));
     }
 
     public string GenerateToken(Account account)

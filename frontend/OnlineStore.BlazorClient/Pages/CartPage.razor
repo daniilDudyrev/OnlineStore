@@ -3,28 +3,32 @@
 @inherits OnlineStore.BlazorClient.Components.AppComponentBase
 
 <h3>Корзина</h3>
-@if (!_cartItems.Items.Any())
+@if (!_cartItems!.Items.Any())
 {
     <p>Вперед за покупками!</p>
 }
 else
 {
-    <p>Товаров в корзине:@_cartItems.Items.Count()</p>
+    <p>Товаров в корзине:@_cartItems!.Items.Count()</p>
 }
 
 @foreach (var item in _cartItems.Items)
 {
+    @* <ul> *@
+    @*     <li>ID: @GetProductByIdInCart(item.ProductId)</li> *@
+    @*     <li>NAME: @GetProductByIdInCart(item.ProductId).Result.ProductName</li> *@
+    @*     <li>PRICE: @GetProductByIdInCart(item.ProductId).Result.Price</li> *@
+    @*     <li>QUANTITY: @item.Quantity</li> *@
+    @* </ul> *@
     <ul>
-        <li>ID: @GetProductByIdInCart(item.ProductId)</li>
-        <li>NAME: @GetProductByIdInCart(item.ProductId).Result.ProductName</li>
-        <li>PRICE: @GetProductByIdInCart(item.ProductId).Result.Price</li>
+        <li>ID: @item.ProductId</li>
         <li>QUANTITY: @item.Quantity</li>
     </ul>
 }
 
 @code {
-    private CartResponse _cartItems;
-    private ProductResponse _product;
+    private CartResponse? _cartItems;
+    private ProductResponse? _product;
 
     protected override async Task OnInitializedAsync()
     {

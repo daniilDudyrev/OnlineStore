@@ -7,7 +7,7 @@
 @inject IToastService ToastService;
 
 
-<h3>@_category.CategoryName</h3>
+<h3>@_category?.CategoryName</h3>
 
 @if (_products is not null)
 {
@@ -23,8 +23,8 @@
     [Parameter]
     public Guid CategoryId { get; set; }
 
-    private ProductsResponse _products;
-    private CategoryResponse _category;
+    private ProductsResponse? _products;
+    private CategoryResponse? _category;
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,6 +36,6 @@
     private async Task AddToCart(Guid productId)
     {
         await ShopClient.AddToCart(productId);
-        ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
+        ToastService.ShowSuccess("Success!", "Congratulations!");
     }
 }

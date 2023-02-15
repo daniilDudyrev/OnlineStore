@@ -23,7 +23,7 @@ public class CartService
         return cartItems;
     }
 
-    public virtual async Task<CartItem> AddItem(Guid accountId, Guid productId, CancellationToken cancellationToken, int quantity)
+    public virtual async Task<CartItem> AddItem(Guid accountId, Guid productId, CancellationToken cancellationToken, int quantity = 1)
     {
         var cart = await _unitOfWork.CartRepository.GetByAccountId(accountId, cancellationToken);
         var product = await _unitOfWork.ProductRepository.GetById(productId, cancellationToken);

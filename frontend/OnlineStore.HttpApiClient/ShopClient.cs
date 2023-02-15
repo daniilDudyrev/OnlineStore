@@ -77,7 +77,7 @@ public class ShopClient : IShopClient
         var responseMessage = await _httpClient.PostAsJsonAsync(uri, request, cancellationToken);
         responseMessage.EnsureSuccessStatusCode();
         var response = await responseMessage.Content.ReadFromJsonAsync<RegisterResponse>(cancellationToken: cancellationToken);
-        SetAuthToken(response!.Token);
+        SetAuthToken(response!.Token!);
         return response;
     }
 
@@ -92,7 +92,7 @@ public class ShopClient : IShopClient
         var responseMessage = await _httpClient.PostAsJsonAsync(uri, request, cancellationToken);
         responseMessage.EnsureSuccessStatusCode();
         var response = await responseMessage.Content.ReadFromJsonAsync<AuthResponse>(cancellationToken: cancellationToken);
-        SetAuthToken(response!.Token);
+        SetAuthToken(response!.Token!);
         return response;
     }
 

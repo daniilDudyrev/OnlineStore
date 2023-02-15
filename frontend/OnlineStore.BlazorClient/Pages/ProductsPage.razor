@@ -8,15 +8,15 @@
 
 <h3>Список товаров</h3>
 <div class="productsList">
-    @if (_products is not null)
+@if (_products is not null)
+{
+    foreach (var product in _products.Products)
     {
-        foreach (var product in _products.Products)
-        {
-            <ProductItem Product="product"/>
-            <p>@product.ProductId</p>
-            <button class="btn btn-success" id="btnAddToCart"  @onclick="@(() =>AddToCart(product.ProductId))">Добавить в корзину</button>
-        }
+        <ProductItem Product="product"/>
+        <p>@product.ProductId</p>
+        <button class="btn btn-success" id="btnAddToCart"  @onclick="@(() =>AddToCart(product.ProductId))">Добавить в корзину</button>
     }
+}
 </div>
 
 @code {
@@ -32,6 +32,6 @@
     private async Task AddToCart(Guid productId)
     {
         await ShopClient.AddToCart(productId);
-        ToastService.ShowSuccess("I'm a SUCCESS message with a custom title", "Congratulations!");
+        ToastService.ShowSuccess("Success!", "Congratulations!");
     }
 }
