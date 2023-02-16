@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OnlineStore.Domain.Exceptions;
+using OnlineStore.Models.Responses;
 
 namespace OnlineStore.WebApi.Filters;
 
@@ -10,7 +11,7 @@ public class AppExceptionFilter : Attribute, IExceptionFilter
     {
         var message = TryGetUserMessageFromException(context);
         if (message == null) return;
-        context.Result = new ObjectResult(new ErrorModel(message));
+        context.Result = new ObjectResult(new ErrorResponse(message));
         context.ExceptionHandled = true;
     }
 

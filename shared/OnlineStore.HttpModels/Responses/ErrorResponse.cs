@@ -1,6 +1,6 @@
-﻿namespace OnlineStore.WebApi.Filters;
+﻿namespace OnlineStore.Models.Responses;
 
-public record ErrorModel(string Message)
+public record ErrorResponse(string Message)
 {
     public override string ToString()
     {
