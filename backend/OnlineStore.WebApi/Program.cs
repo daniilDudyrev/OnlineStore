@@ -8,13 +8,14 @@ using OnlineStore.Data.Repositories;
 using OnlineStore.Domain.RepositoryInterfaces;
 using OnlineStore.Domain.Services;
 using OnlineStore.WebApi.Configurations;
+using OnlineStore.WebApi.Filters;
 using OnlineStore.WebApi.Mappers;
 using OnlineStore.WebApi.Middlewares;
 using OnlineStore.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => { options.Filters.Add<AppExceptionFilter>(); });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

@@ -20,6 +20,6 @@ public record Account : IEntity
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Email = email ?? throw new ArgumentNullException(nameof(email));
         PasswordHash = password ?? throw new ArgumentNullException(nameof(password));
-        // Roles = roles;
+        // Roles = roles ?? throw new ArgumentNullException(nameof(roles));
     }
 }
