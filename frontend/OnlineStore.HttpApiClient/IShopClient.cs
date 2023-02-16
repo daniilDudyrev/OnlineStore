@@ -19,7 +19,7 @@ public interface IShopClient
     void ResetAuthToken();
     Task<Account> GetAccount(CancellationToken cancellationToken = default);
     Task<CartResponse> GetItemsInCart(CancellationToken cancellationToken = default);
-    Task<CartItemResponse> AddToCart(Guid productId, CancellationToken cancellationToken = default);
+    Task<CartItemResponse> AddToCart(Guid productId, int quantity, CancellationToken cancellationToken = default);
     Task<CategoriesResponse> GetCategories(CancellationToken cancellationToken = default);
     Task<CategoryResponse> GetCategory(Guid id, CancellationToken cancellationToken = default);
     Task AddCategory(CategoryRequest category, CancellationToken cancellationToken = default);

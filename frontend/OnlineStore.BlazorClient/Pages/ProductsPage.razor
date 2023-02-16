@@ -31,7 +31,7 @@
 
     private async Task AddToCart(Guid productId)
     {
-        await ShopClient.AddToCart(productId);
+        await ShopClient.AddToCart(productId, 1);
         ToastService.ShowSuccess("Success!", "Congratulations!");
     }
 }

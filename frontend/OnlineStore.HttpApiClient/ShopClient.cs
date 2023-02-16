@@ -110,9 +110,9 @@ public class ShopClient : IShopClient
         return responseMessage!;
     }
 
-    public async Task<CartItemResponse> AddToCart(Guid productId, CancellationToken cancellationToken = default)
+    public async Task<CartItemResponse> AddToCart(Guid productId,int quantity = 1 ,CancellationToken cancellationToken = default)
     {
-        var uri = $"{_host}/cart/add_item?productId={productId}";
+        var uri = $"{_host}/cart/add_item?productId={productId}&quantity={quantity}";
         var responseMessage = await _httpClient.PostAsJsonAsync(uri, productId, cancellationToken);
         responseMessage.EnsureSuccessStatusCode();
         var response = await responseMessage.Content.ReadFromJsonAsync<CartItemResponse>(cancellationToken: cancellationToken);

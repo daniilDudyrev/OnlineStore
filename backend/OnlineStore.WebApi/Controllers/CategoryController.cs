@@ -38,11 +38,6 @@ public class CategoryController : ControllerBase
     [HttpPost("add")]
     public async Task<ActionResult<CategoryResponse>> AddCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-
         var category = await _categoryService.AddCategory(request.Name, cancellationToken);
         return new CategoryResponse(category.Id, category.Name);
     }
@@ -50,11 +45,6 @@ public class CategoryController : ControllerBase
     [HttpPut("update")]
     public async Task<ActionResult<CategoryResponse>> UpdateCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-
         var category = await _categoryService.UpdateCategory(request.Name, cancellationToken);
         return new CategoryResponse(category.Id, category.Name);
     }
