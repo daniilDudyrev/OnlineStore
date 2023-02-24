@@ -24,6 +24,10 @@ public record Cart : IEntity
 
     public CartItem Add(Product product, int quantity)
     {
+        if (product == null)
+        {
+            throw new ArgumentNullException(nameof(product));
+        }
         var cartItem = Items.SingleOrDefault(it => it.ProductId == product.Id);
         if (cartItem is not null)
         {
