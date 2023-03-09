@@ -41,7 +41,7 @@ public class AccountService
         var emailRegistered = existedAccount is not null;
         if (emailRegistered)
         {
-            throw new EmailExistsException("Email already exists");
+            throw new EmailExistsException("Email already exists!");
         }
 
         var hashedPassword = _passwordHasherService.HashPassword(password);
@@ -70,12 +70,12 @@ public class AccountService
         var account = await _unitOfWork.AccountRepository.FindByEmail(email, cancellationToken);
         if (account == null)
         {
-            throw new EmailNotFoundException("There is no such account");
+            throw new EmailNotFoundException("There is no such account!");
         }
 
         if (!_passwordHasherService.VerifyPassword(account.PasswordHash, password))
         {
-            throw new InvalidPasswordException("Invalid password");
+            throw new InvalidPasswordException("Invalid password!");
         }
 
         var token = _tokenService.GenerateToken(account);

@@ -75,7 +75,11 @@ public class ShopClient : IShopClient
 
         var uri = $"{_host}/account/register";
         var responseMessage = await _httpClient.PostAsJsonAsync(uri, request, cancellationToken);
-        responseMessage.EnsureSuccessStatusCode();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            var error = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+            throw new HttpRequestException($"Statuc code: {responseMessage.StatusCode} " + error);
+        }
         var response = await responseMessage.Content.ReadFromJsonAsync<RegisterResponse>(cancellationToken: cancellationToken);
         SetAuthToken(response!.Token!);
         return response;
@@ -90,7 +94,11 @@ public class ShopClient : IShopClient
 
         var uri = $"{_host}/account/authentication";
         var responseMessage = await _httpClient.PostAsJsonAsync(uri, request, cancellationToken);
-        responseMessage.EnsureSuccessStatusCode();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            var error = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+            throw new HttpRequestException($"Statuc code: {responseMessage.StatusCode} " + error);
+        }
         var response = await responseMessage.Content.ReadFromJsonAsync<AuthResponse>(cancellationToken: cancellationToken);
         SetAuthToken(response!.Token!);
         return response;

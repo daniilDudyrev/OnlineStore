@@ -11,7 +11,10 @@ public class AppExceptionFilter : Attribute, IExceptionFilter
     {
         var message = TryGetUserMessageFromException(context);
         if (message == null) return;
-        context.Result = new ObjectResult(new ErrorResponse(message));
+        context.Result = new ObjectResult(new ErrorResponse(message))
+        {
+            StatusCode = 400
+        };
         context.ExceptionHandled = true;
     }
 
@@ -21,6 +24,7 @@ public class AppExceptionFilter : Attribute, IExceptionFilter
         {
             EmailNotFoundException => "There is no such account!",
             InvalidPasswordException => "Invalid password!",
+            EmailExistsException => "Email already exists!",
             _ => null
         };
     }
