@@ -101,17 +101,10 @@ public class AccountEndpointsTests : IClassFixture<CustomWebApplicationFactory<P
     {
         var httpClient = _factory.CreateClient();
         var client = new ShopClient(httpClient: httpClient);
-        var registerRequest = new RegisterRequest()
-        {
-            Email = _faker.Person.Email,
-            Name = _faker.Person.UserName,
-            Password = _faker.Internet.Password()
-        };
-        await client.Register(registerRequest);
         var authRequest = new AuthRequest()
         {
-            Email =  _faker.Person.Email + "s",
-            Password = registerRequest.Password
+            Email =  _faker.Person.Email,
+            Password = _faker.Internet.Password()
         };
 
         await FluentActions.Invoking(() => client.Authentication(authRequest))
