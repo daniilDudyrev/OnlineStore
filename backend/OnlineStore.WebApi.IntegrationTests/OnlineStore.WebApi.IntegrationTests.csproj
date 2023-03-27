@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\frontend\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj" />
+      <ProjectReference Include="..\..\frontend_blazor\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj" />
       <ProjectReference Include="..\OnlineStore.WebApi\OnlineStore.WebApi.csproj" />
     </ItemGroup>
 

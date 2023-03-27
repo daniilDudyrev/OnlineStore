@@ -2,23 +2,23 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.WebApi", "backend\OnlineStore.WebApi\OnlineStore.WebApi.csproj", "{54D0533F-40D8-4FCE-97D0-E26BB31C50A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.HttpApiClient", "frontend\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj", "{51FB4ADB-D5ED-4B42-8384-D8BA9F0FE2AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.HttpApiClient", "frontend_blazor\OnlineStore.HttpApiClient\OnlineStore.HttpApiClient.csproj", "{51FB4ADB-D5ED-4B42-8384-D8BA9F0FE2AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.HttpModels", "shared\OnlineStore.HttpModels\OnlineStore.HttpModels.csproj", "{11F8C19D-E046-4C3A-9F54-7081BF053B11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Data", "backend\OnlineStore.Data\OnlineStore.Data.csproj", "{0AC96581-1AC6-4061-9FEA-5034624EFA25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BlazorClient", "frontend\OnlineStore.BlazorClient\OnlineStore.BlazorClient.csproj", "{AAFDC4D4-0160-453A-AF55-3465E9B5D1BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BlazorClient", "frontend_blazor\OnlineStore.BlazorClient\OnlineStore.BlazorClient.csproj", "{AAFDC4D4-0160-453A-AF55-3465E9B5D1BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Domain", "backend\OnlineStore.Domain\OnlineStore.Domain.csproj", "{4AEDD9A7-CAA2-4AA7-9BCD-37531F9233C4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{F2F6AF71-6D44-41EB-B32E-735A2631112F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend_blazor", "frontend_blazor", "{F2F6AF71-6D44-41EB-B32E-735A2631112F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{64644F72-C50B-4583-BCBA-757FA1787033}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{4936BA45-0178-44E5-BD0A-6514CBAE627D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Domain.Test", "OnlineStore.Domain.Test\OnlineStore.Domain.Test.csproj", "{6A261A1D-D63D-43AB-BF1A-57AD8F5A2EA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Domain.Test", "backend\OnlineStore.Domain.Test\OnlineStore.Domain.Test.csproj", "{6A261A1D-D63D-43AB-BF1A-57AD8F5A2EA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5B98B79-EF63-4315-8923-8310C2988A11}"
 EndProject
