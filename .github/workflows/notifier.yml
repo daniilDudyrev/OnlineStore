@@ -17,5 +17,6 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            **Backend**: ${{ github.actor }} сделал ${{ github.event_name }}: ${{ github.event.commits[0].message }}.
+            Backend
+            ${{ github.actor }} сделал ${{ github.event_name }}: ${{ github.event.commits[0].message }}.
             Обновите репозиторий до актуальной версии прежде, чем продолжить работу.
