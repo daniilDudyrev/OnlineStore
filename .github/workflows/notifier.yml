@@ -11,11 +11,11 @@ jobs:
   notifyTelegram:
     runs-on: ubuntu-latest
     steps:
-    - name: send custom message
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          The ${{ github.event_name }} event triggered final step.
-          echo This event is a pull request that had an assignee removed.
+      - name: send custom message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} сделал The ${{ github.event_name }}: ${{ github.ref_name }}.
+            Обновите репозиторий до актуальной версии прежде, чем продолжить работу.
