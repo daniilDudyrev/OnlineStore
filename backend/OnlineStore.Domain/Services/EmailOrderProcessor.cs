@@ -27,58 +27,57 @@ public class EmailSettings
             _emailSettings = settings;
         }
 
-        public void ProcessOrder(Order order, ShippingDetails shippingInfo)
+        public void ProcessOrder(Order order, ShippingDetails shippingInfo, CancellationToken cancellationToken)
         {
-            using (var smtpClient = new SmtpClient())
-            {
-                smtpClient.EnableSsl = _emailSettings.UseSsl;
-                smtpClient.Host = _emailSettings.ServerName;
-                smtpClient.Port = _emailSettings.ServerPort;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials
-                    = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
-
-                if (_emailSettings.WriteAsFile)
+                using (var smtpClient = new SmtpClient())
                 {
-                    smtpClient.DeliveryMethod
-                        = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-                    smtpClient.PickupDirectoryLocation = _emailSettings.FileLocation;
-                    smtpClient.EnableSsl = false;
-                }
+                    smtpClient.EnableSsl = _emailSettings.UseSsl;
+                    smtpClient.Host = _emailSettings.ServerName;
+                    smtpClient.Port = _emailSettings.ServerPort;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials
+                        = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
 
-                StringBuilder body = new StringBuilder()
-                    .AppendLine("Новый заказ обработан")
-                    .AppendLine("---")
-                    .AppendLine("Товары:");
+                    if (_emailSettings.WriteAsFile)
+                    {
+                        smtpClient.DeliveryMethod
+                            = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                        smtpClient.PickupDirectoryLocation = _emailSettings.FileLocation;
+                        smtpClient.EnableSsl = false;
+                    }
 
-                foreach (var line in order.Items)
-                {
-                    var subtotal = line.Price * line.Quantity;
-                    body.AppendFormat("{0} x {1} (Итого: {2:c}", 
-                        line.Price, line.Quantity, subtotal);
-                }
+                    StringBuilder body = new StringBuilder()
+                        .AppendLine("Новый заказ обработан")
+                        .AppendLine("---")
+                        .AppendLine("Товары:");
 
-                body.AppendFormat("Общая стоимость: {0:c}", order.GetTotalPrice())
-                    .AppendLine("---")
-                    .AppendLine("Доставка:")
-                    .AppendLine(shippingInfo.Name)
-                    .AppendLine(shippingInfo.Adress)
-                    .AppendLine(shippingInfo.City)
-                    .AppendLine("---");
+                    foreach (var line in order.Items)
+                    {
+                        var subtotal = line.Price * line.Quantity;
+                        body.AppendFormat("{0} x {1} (Итого: {2:c}",
+                            line.Price, line.Quantity, subtotal);
+                    }
 
-                MailMessage mailMessage = new MailMessage(
-                                       _emailSettings.MailFromAddress,
-                                       _emailSettings.MailToAddress,
-                                       "Новый заказ отправлен!",
-                                       body.ToString());
+                    body.AppendFormat("Общая стоимость: {0:c}", order.GetTotalPrice())
+                        .AppendLine("---")
+                        .AppendLine("Доставка:")
+                        .AppendLine(shippingInfo.Name)
+                        .AppendLine(shippingInfo.Adress)
+                        .AppendLine(shippingInfo.City)
+                        .AppendLine("---");
 
-                if (_emailSettings.WriteAsFile)
-                {
-                    mailMessage.BodyEncoding = Encoding.UTF8;
-                }
+                    MailMessage mailMessage = new MailMessage(
+                        _emailSettings.MailFromAddress,
+                        _emailSettings.MailToAddress,
+                        "Новый заказ отправлен!",
+                        body.ToString());
 
-                smtpClient.Send(mailMessage);
+                    if (_emailSettings.WriteAsFile)
+                    {
+                        mailMessage.BodyEncoding = Encoding.UTF8;
+                    }
+
+                    smtpClient.SendAsync(mailMessage, null);
             }
         }
-
     }

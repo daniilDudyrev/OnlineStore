@@ -6,10 +6,13 @@ namespace OnlineStore.Domain.Services;
 public class OrderService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IOrderProcessor _orderProcessor;
 
-    public OrderService(IUnitOfWork unitOfWork)
+    public OrderService(IUnitOfWork unitOfWork, IOrderProcessor orderProcessor)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _orderProcessor = orderProcessor ?? throw new ArgumentNullException(nameof(orderProcessor));
+
     }
 
     public virtual async Task<Order> GetOrderForAccount(Guid accountId, CancellationToken cancellationToken) =>
@@ -29,5 +32,10 @@ public class OrderService
         await _unitOfWork.OrderRepository.Add(order, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return order;
+    }
+
+    public virtual async Task ProcessOrder(Order order, ShippingDetails shipping, CancellationToken cancellationToken)
+    {
+        await Task.Run(() => _orderProcessor.ProcessOrder(order, shipping, cancellationToken), cancellationToken);
     }
 }
