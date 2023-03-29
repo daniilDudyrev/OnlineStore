@@ -1,3 +1,3 @@
 ﻿namespace OnlineStore.Models.Responses;
 
-public record CategoryResponse(Guid CategoryId, string CategoryName);
+public record CategoryResponse(Guid ParentId, Guid CategoryId, string CategoryName);

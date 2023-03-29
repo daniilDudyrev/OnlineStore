@@ -1,18 +1,17 @@
 ﻿namespace OnlineStore.Domain.Entities;
 
-public class Category : IEntity
+public class ParentCategory : IEntity
 {
-    protected Category()
+    protected ParentCategory()
     {
     }
 
-    public Category(Guid id, string name)
+    public ParentCategory(Guid id, string name)
     {
         Id = id;
         Name = name;
     }
-    
+
     public Guid Id { get; init; }
     public string Name { get; set; }
-    public Guid ParentId { get; set; }
 }

@@ -15,5 +15,8 @@ public class HttpModelsMapper
         => new(obj.ProductId, obj.Quantity, obj.Price);
     
     public virtual CategoryResponse MapCategoryModel(Category obj)
+        => new(obj.ParentId,obj.Id, obj.Name);
+
+    public virtual ParentCategoryResponse MapParentCategoryModel(ParentCategory obj)
         => new(obj.Id, obj.Name);
 }

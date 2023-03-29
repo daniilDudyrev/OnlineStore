@@ -92,7 +92,12 @@ namespace OnlineStore.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
                 });
@@ -142,6 +147,21 @@ namespace OnlineStore.Data.Migrations
                     b.ToTable("OrderItem");
                 });
 
+            modelBuilder.Entity("OnlineStore.Domain.Entities.ParentCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ParentCategories");
+                });
+
             modelBuilder.Entity("OnlineStore.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -182,6 +202,15 @@ namespace OnlineStore.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("OnlineStore.Domain.Entities.Category", b =>
+                {
+                    b.HasOne("OnlineStore.Domain.Entities.ParentCategory", null)
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("OnlineStore.Domain.Entities.OrderItem", b =>

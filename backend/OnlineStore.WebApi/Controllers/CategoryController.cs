@@ -31,7 +31,7 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<CategoryResponse>> GetCategory(Guid id, CancellationToken cancellationToken)
     {
         var category = await _categoryService.GetCategory(id, cancellationToken);
-        return new CategoryResponse(category.Id, category.Name);
+        return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
 
@@ -39,20 +39,20 @@ public class CategoryController : ControllerBase
     public async Task<ActionResult<CategoryResponse>> AddCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
         var category = await _categoryService.AddCategory(request.Name, cancellationToken);
-        return new CategoryResponse(category.Id, category.Name);
+        return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
     [HttpPut("update")]
     public async Task<ActionResult<CategoryResponse>> UpdateCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
         var category = await _categoryService.UpdateCategory(request.Name, cancellationToken);
-        return new CategoryResponse(category.Id, category.Name);
+        return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
     [HttpDelete("delete_by_id")]
     public async Task<ActionResult<CategoryResponse>> DeleteCategory(Guid id, CancellationToken cancellationToken)
     {
         var category = await _categoryService.DeleteCategory(id, cancellationToken);
-        return new CategoryResponse(category.Id, category.Name);
+        return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 }
