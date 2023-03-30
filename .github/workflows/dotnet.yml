@@ -25,4 +25,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
+      env:
+        JwtConfig:SigningKey: ${{ secrets.JWT_SIGNINGKEY }}
       run: dotnet test --no-build --verbosity normal
