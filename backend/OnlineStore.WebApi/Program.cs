@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
+builder.Services.Configure<SmtpConfig>(builder.Configuration.GetSection("SmtpConfig"));
 builder.Services.AddScoped<HttpModelsMapper>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -57,6 +57,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IParentCategoryRepository, ParentCategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWorkEf>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CartService>();
