@@ -30,13 +30,13 @@ public class OrderService
         }
 
         await _unitOfWork.OrderRepository.Add(order, cancellationToken);
-        await SendAndShip(order, city, address);
+        await NotifyAboutPlacedOrder(order, city, address, cancellationToken);
         cart.Clear();
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return order;
     }
 
-    public async Task SendAndShip(Order order, string city, string address)
+    public async Task NotifyAboutPlacedOrder(Order order, string city, string address, CancellationToken cancellationToken = default)
     {
         // TODO: Make the manager email address configurable
         const string destination = "manager@aridon.com";

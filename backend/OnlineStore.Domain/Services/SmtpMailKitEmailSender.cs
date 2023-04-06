@@ -5,16 +5,16 @@ using MimeKit.Text;
 
 namespace OnlineStore.Domain.Services;
 
-public class EmailSender : IEmailSender, IDisposable,IAsyncDisposable
+public class SmtpMailKitEmailSender : IEmailSender, IDisposable,IAsyncDisposable
 {
     private readonly SmtpClient _smtpClient = new();
     private readonly SmtpConfig _smtpConfig;
 
-    public EmailSender(IOptionsSnapshot<SmtpConfig> options)
+    public SmtpMailKitEmailSender(IOptionsSnapshot<SmtpConfig> options)
     {
         _smtpConfig = options.Value;
     }
-    public async Task Send(string toEmail, string subject, string htmlBody)
+    public async Task Send(string toEmail, string subject, string htmlBody, CancellationToken cancellationToken = default)
     {
         var email = new MimeMessage();
         email.From.Add(MailboxAddress.Parse(_smtpConfig.UserName));
@@ -25,7 +25,7 @@ public class EmailSender : IEmailSender, IDisposable,IAsyncDisposable
             Text = htmlBody
         };
         await EnsureConnectedAndAuthenticated();
-        await _smtpClient.SendAsync(email);
+        await _smtpClient.SendAsync(email, cancellationToken);
     }
 
     private async Task EnsureConnectedAndAuthenticated()

@@ -31,7 +31,7 @@ public class OrderController : ControllerBase
 
     [Authorize]
     [HttpPost("create_order")]
-    public async Task<ActionResult<OrderResponse>> CreateOrder(PlaceOrderRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderResponse>> PlaceOrder(PlaceOrderRequest request, CancellationToken cancellationToken)
     {
         var accountId = User.GetAccountId();
         var order = await _orderService.CreateAndReplaceOrder(accountId, request.City, request.Address, cancellationToken);

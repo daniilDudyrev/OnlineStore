@@ -57,7 +57,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IParentCategoryRepository, ParentCategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWorkEf>();
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IEmailSender, SmtpMailKitEmailSender>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CartService>();
