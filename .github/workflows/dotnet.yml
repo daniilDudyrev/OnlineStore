@@ -25,4 +25,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
+      env:
+        SmtpConfig: ${{ secrets.SMTPCONFIG }}
       run: dotnet test --no-build --verbosity normal
