@@ -38,8 +38,6 @@ public class OrderService
 
     public async Task NotifyAboutPlacedOrder(Order order, string city, string address, CancellationToken cancellationToken = default)
     {
-        // TODO: Make the manager email address configurable
-        const string destination = "manager@aridon.com";
         StringBuilder body = new StringBuilder()
             .AppendLine("Новый заказ обработан")
             .AppendLine("---")
@@ -59,6 +57,11 @@ public class OrderService
             .AppendLine(city)
             .AppendLine("---");
 
-        await _emailSender.Send(destination, "Новый заказ отправлен", body.ToString());
+        await _emailSender.Send(ShopConfig.ManagerEmail, "Новый заказ отправлен", body.ToString(), cancellationToken);
     }
+}
+
+public class ShopConfig
+{
+    public static string ManagerEmail { get; } = "manager@aridon.com";
 }
