@@ -19,7 +19,7 @@ public class OrderService
     public virtual async Task<Order> GetOrderForAccount(Guid accountId, CancellationToken cancellationToken) =>
         await _unitOfWork.OrderRepository.GetByAccountId(accountId, cancellationToken);
 
-    public virtual async Task<Order> CreateAndReplaceOrder(Guid accountId, string city, string address, CancellationToken cancellationToken)
+    public virtual async Task<Order> PlaceOrderAndCreateNew(Guid accountId, string city, string address, CancellationToken cancellationToken)
     {
         var cart = await _unitOfWork.CartRepository.GetByAccountId(accountId, cancellationToken);
         var order = new Order(Guid.NewGuid(), accountId, new List<OrderItem>());

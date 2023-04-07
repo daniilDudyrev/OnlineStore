@@ -24,20 +24,20 @@ public class SmtpMailKitEmailSender : IEmailSender, IDisposable,IAsyncDisposable
         {
             Text = htmlBody
         };
-        await EnsureConnectedAndAuthenticated();
+        await EnsureConnectedAndAuthenticated(cancellationToken);
         await _smtpClient.SendAsync(email, cancellationToken);
     }
 
-    private async Task EnsureConnectedAndAuthenticated()
+    private async Task EnsureConnectedAndAuthenticated(CancellationToken cancellationToken)
     {
         if (!_smtpClient.IsConnected)
         {
-            await _smtpClient.ConnectAsync(_smtpConfig.Host, _smtpConfig.Port);
+            await _smtpClient.ConnectAsync(_smtpConfig.Host, _smtpConfig.Port, cancellationToken: cancellationToken);
         }
 
         if (!_smtpClient.IsAuthenticated)
         {
-            await _smtpClient.AuthenticateAsync(_smtpConfig.UserName, _smtpConfig.Password);
+            await _smtpClient.AuthenticateAsync(_smtpConfig.UserName, _smtpConfig.Password, cancellationToken);
         }
     }
 
