@@ -26,5 +26,6 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       env:
+        SmtpConfig: ${{ secrets.SMTPCONFIG }}
         JwtConfig:SigningKey: ${{ secrets.JWT_SIGNINGKEY }}
       run: dotnet test --no-build --verbosity normal

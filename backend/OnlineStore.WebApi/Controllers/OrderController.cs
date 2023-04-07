@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Services;
+using OnlineStore.Models.Requests;
 using OnlineStore.Models.Responses;
 using OnlineStore.WebApi.Extensions;
 using OnlineStore.WebApi.Mappers;
@@ -30,10 +31,10 @@ public class OrderController : ControllerBase
 
     [Authorize]
     [HttpPost("create_order")]
-    public async Task<ActionResult<OrderResponse>> CreateOrder(CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderResponse>> PlaceOrder(PlaceOrderRequest request, CancellationToken cancellationToken)
     {
         var accountId = User.GetAccountId();
-        var order = await _orderService.CreateOrder(accountId, cancellationToken);
+        var order = await _orderService.PlaceOrderAndCreateNew(accountId, request.City, request.Address, cancellationToken);
         return new OrderResponse(order.Items.Select(_mapper.MapOrderItemModel), order.Id, order.AccountId,
             order.OrderDate);
     }
