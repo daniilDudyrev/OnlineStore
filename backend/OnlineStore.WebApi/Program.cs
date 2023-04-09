@@ -126,6 +126,8 @@ try
     builder.Services.AddCors();
     var app = builder.Build();
 
+    app.UseStaticFiles();
+    
     app.UseSerilogRequestLogging();
 
     app.UseHttpsRedirection();
