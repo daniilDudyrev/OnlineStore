@@ -22,6 +22,8 @@ public class JwtTokenService : ITokenService
         {
             throw new ArgumentNullException(nameof(account));
         }
+        IClock clock = new Clock();
+        var now = clock.GetCurrentTime();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -29,7 +31,7 @@ public class JwtTokenService : ITokenService
                 new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
                 // new Claim(ClaimTypes.Role, string.Join(",",account.Roles))
             }),
-            Expires = DateTime.UtcNow.Add(_jwtConfig.LifeTime),
+            Expires = now.Add(_jwtConfig.LifeTime),
             Audience = _jwtConfig.Audience,
             Issuer = _jwtConfig.Issuer,
             SigningCredentials = new SigningCredentials(
@@ -41,4 +43,14 @@ public class JwtTokenService : ITokenService
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
+}
+
+public interface IClock
+{
+    DateTime GetCurrentTime();
+}
+
+public class Clock : IClock
+{
+    public DateTime GetCurrentTime() => DateTime.Now;
 }
