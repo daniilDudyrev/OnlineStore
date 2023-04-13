@@ -15,10 +15,10 @@ using OnlineStore.WebApi.Services;
 using Serilog;
 using Serilog.Events;
 
-
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .CreateBootstrapLogger(); 
+    .CreateLogger();
+
 Log.Information("Starting up");
 try
 {
@@ -108,7 +108,6 @@ try
             };
         });
     builder.Services.AddAuthorization();
-
 
     const string dbPath = "myapp.db";
     builder.Services.AddDbContext<AppDbContext>(
