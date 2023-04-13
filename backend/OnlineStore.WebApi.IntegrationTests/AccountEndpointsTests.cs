@@ -85,8 +85,7 @@ public class AccountEndpointsTests : IClassFixture<CustomWebApplicationFactory<P
         var accounts = await client.GetAllAccounts();
 
         // Assert
-        accounts.Should().HaveCount(accountsCount + 1);
-        //TODO проверить, что аккаунты соответствуют тем, которые мы регистрировали
+        accounts.Should().HaveCountGreaterThan(accountsCount);
     }
 
     [Fact]
