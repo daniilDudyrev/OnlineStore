@@ -30,7 +30,6 @@ public class OrderService
         }
 
         await _unitOfWork.OrderRepository.Add(order, cancellationToken);
-        await NotifyAboutPlacedOrder(order, city, address, cancellationToken);
         cart.Clear();
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return order;
@@ -50,6 +49,7 @@ public class OrderService
                 line.Price, line.Quantity, subtotal);
         }
 
+        
         body.AppendFormat("Общая стоимость: {0:c}", order.GetTotalPrice())
             .AppendLine("---")
             .AppendLine("Доставка:")

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OnlineStore.Data;
+using OnlineStore.Domain.Services;
 
 namespace OnlineStore.WebApi.IntegrationTests;
 
@@ -19,6 +20,7 @@ public class CustomWebApplicationFactory<TProgram>
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<AppDbContext>();
+            services.RemoveAll<IEmailSender>();
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlite($"Data Source={DbPath}"));
             using var serviceProvider = services.BuildServiceProvider();

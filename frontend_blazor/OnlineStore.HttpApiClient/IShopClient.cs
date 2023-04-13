@@ -17,7 +17,7 @@ public interface IShopClient
     Task<AuthResponse> Authentication(AuthRequest authRequest, CancellationToken cancellationToken = default);
     void SetAuthToken(string token);
     void ResetAuthToken();
-    Task<Account> GetAccount(CancellationToken cancellationToken = default);
+    Task<Account> GetCurrentAccount(CancellationToken cancellationToken = default);
     Task<CartResponse> GetItemsInCart(CancellationToken cancellationToken = default);
     Task<CartItemResponse> AddToCart(Guid productId, int quantity, CancellationToken cancellationToken = default);
     Task<CategoriesResponse> GetCategories(CancellationToken cancellationToken = default);

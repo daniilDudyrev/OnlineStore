@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using OnlineStore.Data.Conveters;
 using OnlineStore.Domain.Entities;
 
 namespace OnlineStore.Data;
@@ -27,6 +28,14 @@ public class AppDbContext : DbContext
         BuildOrderItems(modelBuilder);
         BuildProductModel(modelBuilder);
         BuildCategoryModel(modelBuilder);
+        BuildAccountModel(modelBuilder);
+    }
+
+    private void BuildAccountModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Account>()
+            .Property(p => p.Roles)
+            .HasConversion<RolesValueConverter>();
     }
 
     private void BuildCartItems(ModelBuilder modelBuilder)
