@@ -7,28 +7,21 @@ namespace OnlineStore.WebApi.IntegrationTests;
 
 public class AccountEndpointsTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    private static Faker<RegisterRequest> GetRegisterRequestFaker()
-    {
-        return new Faker<RegisterRequest>()
-            .RuleFor(x => x.Name, f => f.Name.FullName())
-            .RuleFor(x => x.Email, f => f.Internet.Email())
-            .RuleFor(x => x.Password, f => f.Internet.Password(8));
-    }
-    
     private readonly CustomWebApplicationFactory<Program> _factory;
     private readonly Faker _faker = new("ru");
-    private readonly Faker<RegisterRequest> _accountRequestFakes = GetRegisterRequestFaker();
-    
+    private readonly Faker<RegisterRequest> _accountRequestFaker = GetRegisterRequestFaker();
 
     public AccountEndpointsTests(CustomWebApplicationFactory<Program> factory)
     {
-            // В реальном проекте эти данные будут храниться в переменных окружения тестового контура (CI).
-            Environment.SetEnvironmentVariable("ASPNETCORE_JwtConfig:SigningKey", "1AC9ED10-0A0B-426E-9997-3ADE426704D6", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("ASPNETCORE_JwtConfig:LifeTime", "180.00:00:00", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("ASPNETCORE_JwtConfig:Audience", "OnlineStore.Client", EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("ASPNETCORE_JwtConfig:Issuer", "OnlineStore.Backend", EnvironmentVariableTarget.Process);
-
-            _factory = factory;
+        _factory = factory;
+    }
+    
+    private static Faker<RegisterRequest> GetRegisterRequestFaker()
+    {
+        return new Faker<RegisterRequest>("ru")
+            .RuleFor(x => x.Name, f => f.Name.FullName())
+            .RuleFor(x => x.Email, f => f.Internet.Email())
+            .RuleFor(x => x.Password, f => f.Internet.Password(8));
     }
     
     [Fact]
@@ -72,10 +65,10 @@ public class AccountEndpointsTests : IClassFixture<CustomWebApplicationFactory<P
         var accountsCount = 10;
         var httpClient = _factory.CreateClient();
         var client = new ShopClient(httpClient: httpClient);
-        var users = _accountRequestFakes.Generate(accountsCount);
+        var users = _accountRequestFaker.Generate(accountsCount);
         await Task.WhenAll(users.Select(request => client.Register(request)));
 
-        var adminReqest = _accountRequestFakes.Generate();
+        var adminReqest = _accountRequestFaker.Generate();
         var admin = await client.Register(adminReqest);
         
         await client.GrantAdmin(admin.AccountId, "123");
