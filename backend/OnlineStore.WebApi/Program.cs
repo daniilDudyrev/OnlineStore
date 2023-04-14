@@ -77,7 +77,7 @@ try
     builder.Services.AddSingleton<IPasswordHasherService, Pbkdf2PasswordHasher>();
     builder.Services.AddScoped<ITokenService, JwtTokenService>();
     builder.Services.AddSingleton<IClock>(
-    new FakeClock(new DateTime(2013, 1, 1))
+    new FakeClock(new DateTime(2023, 4, 14))
     );
     builder.Services.AddHttpLogging(options =>
     {
