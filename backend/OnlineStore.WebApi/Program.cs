@@ -76,6 +76,7 @@ try
     builder.Services.AddScoped<OrderService>();
     builder.Services.AddSingleton<IPasswordHasherService, Pbkdf2PasswordHasher>();
     builder.Services.AddScoped<ITokenService, JwtTokenService>();
+    builder.Services.AddSingleton<IClock, FakeClock>();
     builder.Services.AddHttpLogging(options =>
     {
         options.LoggingFields = HttpLoggingFields.RequestHeaders

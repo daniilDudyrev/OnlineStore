@@ -10,10 +10,12 @@ namespace OnlineStore.WebApi.Services;
 public class JwtTokenService : ITokenService
 {
     private readonly JwtConfig _jwtConfig;
+    private readonly IClock _clock;
 
-    public JwtTokenService(JwtConfig jwtConfig)
+    public JwtTokenService(JwtConfig jwtConfig, IClock clock)
     {
         _jwtConfig = jwtConfig ?? throw new ArgumentNullException(nameof(jwtConfig));
+        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
     }
 
     public string GenerateToken(Account account)
@@ -22,8 +24,7 @@ public class JwtTokenService : ITokenService
         {
             throw new ArgumentNullException(nameof(account));
         }
-        IClock clock = new Clock();
-        var now = clock.GetCurrentTime();
+        var now = _clock.GetCurrentTime();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -50,7 +51,14 @@ public interface IClock
     DateTime GetCurrentTime();
 }
 
-public class Clock : IClock
+public class FakeClock : IClock
 {
-    public DateTime GetCurrentTime() => DateTime.Now;
+    private readonly DateTime _dateTime;
+
+    public FakeClock(DateTime dateTime)
+    {
+        _dateTime = dateTime;
+    }
+
+    public DateTime GetCurrentTime() => _dateTime;
 }
