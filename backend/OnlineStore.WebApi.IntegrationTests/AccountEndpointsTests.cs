@@ -2,7 +2,6 @@ using Bogus;
 using FluentAssertions;
 using OnlineStore.HttpApiClient;
 using OnlineStore.Models.Requests;
-using Xunit.Abstractions;
 
 namespace OnlineStore.WebApi.IntegrationTests;
 
@@ -10,10 +9,76 @@ public class AccountEndpointsTests : IClassFixture<CustomWebApplicationFactory<P
 {
     private readonly CustomWebApplicationFactory<Program> _factory;
     private readonly Faker _faker = new("ru");
+    private readonly Faker<RegisterRequest> _accountRequestFaker = GetRegisterRequestFaker();
 
     public AccountEndpointsTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
+    }
+    
+    private static Faker<RegisterRequest> GetRegisterRequestFaker()
+    {
+        return new Faker<RegisterRequest>("ru")
+            .RuleFor(x => x.Name, f => f.Name.FullName())
+            .RuleFor(x => x.Email, f => f.Internet.Email())
+            .RuleFor(x => x.Password, f => f.Internet.Password(8));
+    }
+    
+    [Fact]
+    public async Task Get_current_account_from_authorized_user_works()
+    {
+        // Arrange
+        var httpClient = _factory.CreateClient();
+        var client = new ShopClient(httpClient: httpClient);
+        var registerRequest = new RegisterRequest()
+        {
+            Email = _faker.Person.Email,
+            Name = _faker.Person.UserName,
+            Password = _faker.Internet.Password()
+        };
+        await client.Register(registerRequest);
+
+        // Act
+        var account = await client.GetCurrentAccount();
+
+        // Assert
+        account.Name.Should().Be(registerRequest.Name);
+        account.Email.Should().Be(registerRequest.Email);
+    }
+    
+    [Fact]
+    public async Task Get_current_account_from_UNauthorized_user_gives_error()
+    {
+        // Arrange
+        var httpClient = _factory.CreateClient();
+        var client = new ShopClient(httpClient: httpClient);
+        
+        // Act and Assert
+        await FluentActions.Invoking(() => client.GetCurrentAccount())
+            .Should().ThrowAsync<HttpRequestException>();
+    }
+    
+    [Fact]
+    public async Task Get_accounts_from_authorized_admin_works()
+    {
+        // Arrange
+        var accountsCount = 10;
+        var httpClient = _factory.CreateClient();
+        var client = new ShopClient(httpClient: httpClient);
+        var users = _accountRequestFaker.Generate(accountsCount);
+        await Task.WhenAll(users.Select(request => client.Register(request)));
+
+        var adminReqest = _accountRequestFaker.Generate();
+        var admin = await client.Register(adminReqest);
+        
+        await client.GrantAdmin(admin.AccountId, "123");
+        await client.Authentication(new AuthRequest() {Email = admin.Email, Password = adminReqest.Password});
+
+        // Act
+        var accounts = await client.GetAllAccounts();
+
+        // Assert
+        accounts.Should().HaveCountGreaterThan(accountsCount);
     }
 
     [Fact]

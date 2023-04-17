@@ -87,4 +87,16 @@ public class AccountService
 
     public async Task<IReadOnlyCollection<Account>> GetAll(CancellationToken cancellationToken) =>
         await _unitOfWork.AccountRepository.GetAll(cancellationToken);
+
+    public async Task GrantAdmin(Guid grantToAccountId, CancellationToken cancellationToken)
+    {
+        var account = await _unitOfWork.AccountRepository.GetById(grantToAccountId, cancellationToken);
+        if (account == null)
+        {
+            throw new AccountNotFoundException("There is no such account!");
+        }
+
+        account.GrantAdmin();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
 }

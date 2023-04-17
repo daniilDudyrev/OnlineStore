@@ -38,8 +38,29 @@ public class AccountController : ControllerBase
     public async Task<ActionResult<Account>> GetCurrentAccount(CancellationToken cancellationToken) =>
         await _accountService.GetAccount(User.GetAccountId(), cancellationToken);
 
-    [Authorize(Roles = $"{Roles.Admin}, {Roles.User}")]
+    [Authorize(Roles = $"{Roles.User}")]
     [HttpGet("get_all")]
-    public async Task<IReadOnlyCollection<Account>> GetAllAccounts(CancellationToken cancellationToken) =>
-        await _accountService.GetAll(cancellationToken);
+    public Task<IReadOnlyCollection<Account>> GetAllAccounts(CancellationToken cancellationToken)
+    {
+        return _accountService.GetAll(cancellationToken);
+    }
+
+    [Authorize]
+    [HttpGet("grant_admin")]
+    public async Task<IActionResult> GrantAdmin(
+        Guid accountId, 
+        string key,
+        CancellationToken cancellationToken)
+    {
+        if (key != "123")
+        {
+            return new ObjectResult("Неверный ключ")
+            {
+                StatusCode = StatusCodes.Status403Forbidden
+            };
+        }
+        
+        await _accountService.GrantAdmin(accountId, cancellationToken);
+        return Ok();
+    }
 }
