@@ -54,15 +54,3 @@ public interface IClock
 {
     DateTime GetCurrentTime();
 }
-
-public class FakeClock : IClock
-{
-    private readonly DateTime _dateTime;
-
-    public FakeClock(DateTime dateTime)
-    {
-        _dateTime = dateTime;
-    }
-
-    public DateTime GetCurrentTime() => DateTime.Now;
-}
