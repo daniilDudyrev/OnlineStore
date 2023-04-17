@@ -31,13 +31,15 @@ public class ParentCategoryService
         return parentCategory;
     }
 
-    public virtual async Task<ParentCategory> UpdateCategory(string name, CancellationToken cancellationToken)
+    public virtual async Task<ParentCategory> UpdateCategory(Guid parentCategoryId, string newName, CancellationToken cancellationToken)
     {
-        if (name == null)
+        if (newName == null)
         {
-            throw new ArgumentNullException(nameof(name));
+            throw new ArgumentNullException(nameof(newName));
         }
-        var parentCategory = await _unitOfWork.ParentCategoryRepository.GetByName(name, cancellationToken);
+
+        var parentCategory = await _unitOfWork.ParentCategoryRepository.GetById(parentCategoryId, cancellationToken);
+        parentCategory.Name = newName;
         await _unitOfWork.ParentCategoryRepository.Update(parentCategory, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return parentCategory;

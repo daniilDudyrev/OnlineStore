@@ -6,9 +6,10 @@ public class Category : IEntity
     {
     }
 
-    public Category(Guid id, string name)
+    public Category(Guid id, Guid parentId, string name)
     {
         Id = id;
+        ParentId = parentId;
         Name = name;
     }
     
