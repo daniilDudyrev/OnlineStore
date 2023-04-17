@@ -25,14 +25,18 @@ public class JwtTokenService : ITokenService
             throw new ArgumentNullException(nameof(account));
         }
         var now = _clock.GetCurrentTime();
+        var claimsIdentity = new ClaimsIdentity(new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, account.Id.ToString())
+        });
+        foreach (var role in account.Roles)
+        {
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+        }
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
-                // new Claim(ClaimTypes.Role, string.Join(",",account.Roles))
-            }),
-            Expires = now.Add(_jwtConfig.LifeTime),
+            Subject = claimsIdentity,
+            Expires = DateTime.UtcNow.Add(_jwtConfig.LifeTime),
             Audience = _jwtConfig.Audience,
             Issuer = _jwtConfig.Issuer,
             SigningCredentials = new SigningCredentials(

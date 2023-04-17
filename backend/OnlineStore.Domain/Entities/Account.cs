@@ -6,7 +6,7 @@ public record Account : IEntity
     public string Name { get; set; }
     public string Email { get; set; }
     public string PasswordHash { get; set; }
-    // public string[] Roles { get; set; }
+    public string[] Roles { get; set; }
 
 #pragma warning disable CS8618
     public Account()
