@@ -54,3 +54,8 @@ public interface IClock
 {
     DateTime GetCurrentTime();
 }
+
+public class RealClock : IClock
+{
+    public DateTime GetCurrentTime() => DateTime.Now;
+}
