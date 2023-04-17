@@ -60,5 +60,5 @@ public class FakeClock : IClock
         _dateTime = dateTime;
     }
 
-    public DateTime GetCurrentTime() => _dateTime;
+    public DateTime GetCurrentTime() => DateTime.Now;
 }
