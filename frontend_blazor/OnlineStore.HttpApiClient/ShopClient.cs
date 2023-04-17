@@ -104,11 +104,18 @@ public class ShopClient : IShopClient
         return response;
     }
 
-    public async Task<Account> GetAccount(CancellationToken cancellationToken = default)
+    public async Task<Account> GetCurrentAccount(CancellationToken cancellationToken = default)
     {
         var uri = $"{_host}/account/get_current";
-        var responseMessage = await _httpClient.GetFromJsonAsync<Account>(uri, cancellationToken);
-        return responseMessage!;
+        var account = await _httpClient.GetFromJsonAsync<Account>(uri, cancellationToken);
+        return account!;
+    }
+    
+    public async Task<IReadOnlyList<Account>> GetAllAccounts(CancellationToken cancellationToken = default)
+    {
+        var uri = $"{_host}/account/get_all";
+        var accounts = await _httpClient.GetFromJsonAsync<IReadOnlyList<Account>>(uri, cancellationToken);
+        return accounts!;
     }
 
     public async Task<CartResponse> GetItemsInCart(CancellationToken cancellationToken = default)
@@ -183,5 +190,12 @@ public class ShopClient : IShopClient
     {
         _httpClient.DefaultRequestHeaders.Remove("Authorization");
         IsAuthorizationTokenSet = false;
+    }
+
+    public async Task GrantAdmin(Guid accountId, string key, CancellationToken cancellationToken = default)
+    {
+        var uri = $"{_host}/account/grant_admin?accountId={accountId}&key={key}";
+        var responseMessage = await _httpClient.GetAsync(uri, cancellationToken);
+        responseMessage.EnsureSuccessStatusCode();
     }
 }

@@ -20,6 +20,6 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        _account = await ShopClient.GetAccount();
+        _account = await ShopClient.GetCurrentAccount();
     }
 }
