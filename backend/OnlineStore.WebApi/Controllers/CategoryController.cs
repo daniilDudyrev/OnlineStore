@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Entities;
 using OnlineStore.Domain.Services;
 using OnlineStore.Models.Requests;
@@ -27,6 +28,7 @@ public class CategoryController : ControllerBase
         return new CategoriesResponse(categories.Select(_mapper.MapCategoryModel));
     }
     
+    [Authorize(Roles = $"{Roles.Admin}")]
     [HttpGet("get_by_parent_id")]
     public async Task<ActionResult<CategoriesResponse>> GetCategoriesByParentId(Guid parentId, CancellationToken cancellationToken)
     {
@@ -34,6 +36,7 @@ public class CategoryController : ControllerBase
         return new CategoriesResponse(categories.Select(_mapper.MapCategoryModel));
     }
 
+    [Authorize(Roles = $"{Roles.Admin}")]
     [HttpGet("get_by_id")]
     public async Task<ActionResult<CategoryResponse>> GetCategory(Guid id, CancellationToken cancellationToken)
     {
@@ -41,7 +44,7 @@ public class CategoryController : ControllerBase
         return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
-
+    [Authorize(Roles = $"{Roles.Admin}")]
     [HttpPost("add")]
     public async Task<ActionResult<CategoryResponse>> AddCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
@@ -49,6 +52,7 @@ public class CategoryController : ControllerBase
         return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
+    [Authorize(Roles = $"{Roles.Admin}")]
     [HttpPut("update")]
     public async Task<ActionResult<CategoryResponse>> UpdateCategory(Guid id, string newName, CancellationToken cancellationToken)
     {
@@ -56,6 +60,7 @@ public class CategoryController : ControllerBase
         return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
+    [Authorize(Roles = $"{Roles.Admin}")]
     [HttpDelete("delete_by_id")]
     public async Task<ActionResult<CategoryResponse>> DeleteCategory(Guid id, CancellationToken cancellationToken)
     {

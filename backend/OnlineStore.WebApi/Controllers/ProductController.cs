@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OnlineStore.Domain.Entities;
 using OnlineStore.Domain.Services;
 using OnlineStore.Models.Requests;
 using OnlineStore.Models.Responses;
@@ -17,7 +19,7 @@ public class ProductController : ControllerBase
         _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
-
+    
     [HttpGet("get_all")]
     public async Task<ActionResult<ProductsResponse>> GetProducts(CancellationToken cancellationToken)
     {
@@ -40,6 +42,7 @@ public class ProductController : ControllerBase
             product.CategoryId);
     }
 
+    
     [HttpPost("add")]
     public async Task<ActionResult<ProductResponse>> AddProduct(ProductRequest request, CancellationToken cancellationToken)
     {
@@ -48,7 +51,7 @@ public class ProductController : ControllerBase
         return new ProductResponse(product.Id, product.Name, product.Price, product.Image, product.Description,
             product.CategoryId);
     }
-
+    
     [HttpPut("update")]
     public async Task<ActionResult<ProductResponse>> UpdateProduct(ProductRequest request, CancellationToken cancellationToken)
     {
@@ -58,6 +61,7 @@ public class ProductController : ControllerBase
             product.CategoryId);
     }
 
+    
     [HttpDelete("delete_by_id")]
     public async Task<ActionResult<ProductResponse>> DeleteProduct(Guid id, CancellationToken cancellationToken)
     {
