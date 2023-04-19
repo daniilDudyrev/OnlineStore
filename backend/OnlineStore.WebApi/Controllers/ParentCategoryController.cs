@@ -6,7 +6,7 @@ using OnlineStore.WebApi.Mappers;
 
 namespace OnlineStore.WebApi.Controllers;
 
-[Microsoft.AspNetCore.Components.Route("parentCategories")]
+[Route("parentCategories")]
 public class ParentCategoryController : ControllerBase
 {
     private readonly ParentCategoryService _parentCategoryService;
@@ -42,9 +42,9 @@ public class ParentCategoryController : ControllerBase
     }
 
     [HttpPut("update")]
-    public async Task<ActionResult<ParentCategoryResponse>> UpdateCategory(ParentCategoryRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<ParentCategoryResponse>> UpdateCategory(Guid id, string newName, CancellationToken cancellationToken)
     {
-        var parentCategory = await _parentCategoryService.UpdateCategory(request.Name, cancellationToken);
+        var parentCategory = await _parentCategoryService.UpdateCategory(id, newName, cancellationToken);
         return new ParentCategoryResponse(parentCategory.Id, parentCategory.Name);
     }
 

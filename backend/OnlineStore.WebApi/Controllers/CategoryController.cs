@@ -26,6 +26,13 @@ public class CategoryController : ControllerBase
         var categories = await _categoryService.GetCategories(cancellationToken);
         return new CategoriesResponse(categories.Select(_mapper.MapCategoryModel));
     }
+    
+    [HttpGet("get_by_parent_id")]
+    public async Task<ActionResult<CategoriesResponse>> GetCategoriesByParentId(Guid parentId, CancellationToken cancellationToken)
+    {
+        var categories = await _categoryService.GetCategoriesByParentId(parentId, cancellationToken);
+        return new CategoriesResponse(categories.Select(_mapper.MapCategoryModel));
+    }
 
     [HttpGet("get_by_id")]
     public async Task<ActionResult<CategoryResponse>> GetCategory(Guid id, CancellationToken cancellationToken)
@@ -38,14 +45,14 @@ public class CategoryController : ControllerBase
     [HttpPost("add")]
     public async Task<ActionResult<CategoryResponse>> AddCategory(CategoryRequest request, CancellationToken cancellationToken)
     {
-        var category = await _categoryService.AddCategory(request.Name, cancellationToken);
+        var category = await _categoryService.AddCategory(request.Name, request.ParentId, cancellationToken);
         return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
     [HttpPut("update")]
-    public async Task<ActionResult<CategoryResponse>> UpdateCategory(CategoryRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<CategoryResponse>> UpdateCategory(Guid id, string newName, CancellationToken cancellationToken)
     {
-        var category = await _categoryService.UpdateCategory(request.Name, cancellationToken);
+        var category = await _categoryService.UpdateCategory(id, newName, cancellationToken);
         return new CategoryResponse(category.ParentId,category.Id, category.Name);
     }
 
