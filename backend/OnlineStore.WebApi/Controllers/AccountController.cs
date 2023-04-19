@@ -54,7 +54,7 @@ public class AccountController : ControllerBase
     {
         if (key != "123")
         {
-            return new ObjectResult("Неверный ключ")
+            return new ObjectResult("Invalid Key")
             {
                 StatusCode = StatusCodes.Status403Forbidden
             };

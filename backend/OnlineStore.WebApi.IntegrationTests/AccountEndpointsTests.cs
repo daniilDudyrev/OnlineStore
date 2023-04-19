@@ -47,7 +47,7 @@ public class AccountEndpointsTests : IClassFixture<CustomWebApplicationFactory<P
     }
     
     [Fact]
-    public async Task Get_current_account_from_UNauthorized_user_gives_error()
+    public async Task Get_current_account_from_Unauthorized_user_gives_error()
     {
         // Arrange
         var httpClient = _factory.CreateClient();
@@ -68,11 +68,11 @@ public class AccountEndpointsTests : IClassFixture<CustomWebApplicationFactory<P
         var users = _accountRequestFaker.Generate(accountsCount);
         await Task.WhenAll(users.Select(request => client.Register(request)));
 
-        var adminReqest = _accountRequestFaker.Generate();
-        var admin = await client.Register(adminReqest);
+        var adminRequest = _accountRequestFaker.Generate();
+        var admin = await client.Register(adminRequest);
         
         await client.GrantAdmin(admin.AccountId, "123");
-        await client.Authentication(new AuthRequest() {Email = admin.Email, Password = adminReqest.Password});
+        await client.Authentication(new AuthRequest() {Email = admin.Email, Password = adminRequest.Password});
 
         // Act
         var accounts = await client.GetAllAccounts();
