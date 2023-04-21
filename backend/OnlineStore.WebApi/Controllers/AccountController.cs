@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Entities;
 using OnlineStore.Domain.Services;
@@ -31,6 +32,14 @@ public class AccountController : ControllerBase
     {
         var (account, token) = await _accountService.Authentication(request.Email, request.Password, cancellationToken);
         return new AuthResponse(account.Id, account.Name, account.Email, token);
+    }
+    
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync();
+        return Redirect("/");
     }
 
     [Authorize]
